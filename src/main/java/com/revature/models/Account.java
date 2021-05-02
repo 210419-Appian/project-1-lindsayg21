@@ -1,31 +1,40 @@
 package com.revature.models;
 
-import com.revature.AccountStatus;
-import com.revature.AccountType;
+import java.io.Serializable;
 
-public class Account {
+import com.revature.models.AccountStatus;
+import com.revature.models.AccountType;
+
+public class Account implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	private int accountId; // primary key
 	private double balance;  // not null
 	private AccountStatus status;
 	private AccountType type;
+	private User user;
 	
 	public Account() {
 		super();
 	}
 	
-	public Account(int acountId, double balance) {
+	public Account(int accountId, double balance) {
 		super();
 		this.accountId = accountId;
 		this.balance = balance;
 	}
 
-	public Account(int accountId, double balance, AccountStatus status, AccountType type) {
+	public Account(int accountId, double balance, AccountStatus status, AccountType type, User user) {
 		super();
 		this.accountId = accountId;
 		this.balance = balance;
 		this.status = status;
 		this.type = type;
+		this.user = user;
 	}
 
 	@Override
@@ -38,6 +47,7 @@ public class Account {
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
 
@@ -64,15 +74,20 @@ public class Account {
 				return false;
 		} else if (!type.equals(other.type))
 			return false;
+		if (user == null) {
+			if (other.user != null)
+				return false;
+		} else if (!user.equals(other.user))
+			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
 		return "Account [accountId=" + accountId + ", balance=" + balance + ", status=" + status + ", type=" + type
-				+ "]";
+				+ ", user=" + user + "]";
 	}
-	
-	
+
+
 	
 }

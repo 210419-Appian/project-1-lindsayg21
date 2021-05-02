@@ -1,7 +1,7 @@
 package com.revature.services;
 
-import com.revature.AccountStatus;
-import com.revature.AccountType;
+import com.revature.models.AccountStatus;
+import com.revature.models.AccountType;
 
 public class AccountService {
 
