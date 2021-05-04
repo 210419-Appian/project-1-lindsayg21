@@ -45,6 +45,12 @@ public class UserDAOImpl implements UserDAO{
 		return false;
 	}
 
+	@Override
+	public List<User> findByAccountId(int accountId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 	
 }

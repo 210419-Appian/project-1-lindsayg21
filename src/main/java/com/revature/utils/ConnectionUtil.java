@@ -16,7 +16,8 @@ public class ConnectionUtil {
 		System.out.println("hi");
 		
 		//String url = "jdbc:postgresql://appian-210419.cgorfhr2fxfh.us-east-2.rds.amazonaws.com:5432/demos";
-		String url = "jdbc:postgresql://:appian-210419.cgorfhr2fxfh.us-east-2.rds.amazonaws.com:5432/";
+		String url = "jdbc:postgresql://appian-210419.cgorfhr2fxfh.us-east-2.rds.amazonaws.com:5432/postgres";
+		//String url = "jdbc:postgresql://:project1-210419.cgorfhr2fxfh.us-east-2.rds.amazonaws.com:5432/project1-210419";
 		String username = "postgres";
 		String password = "password"; 
 		
