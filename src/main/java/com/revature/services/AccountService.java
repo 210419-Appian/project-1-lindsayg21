@@ -2,6 +2,7 @@ package com.revature.services;
 
 import com.revature.models.AccountStatus;
 import com.revature.models.AccountType;
+import com.revature.models.User;
 
 public class AccountService {
 
@@ -13,6 +14,7 @@ public class AccountService {
 			private double balance;  // not null
 			private AccountStatus status;
 			private AccountType type;
+			//private User userId;
 			
 			//need to get account id
 			

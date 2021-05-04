@@ -13,15 +13,21 @@ public class AccountDAOImpl implements AccountDAO{
 	}
 
 	@Override
-	public Account findById(int accountId) {
+	public boolean addAccount(Account account) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Account findByAccountId(int accountId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean addAccount(Account account) {
+	public Account findByUserId(int userId) {
 		// TODO Auto-generated method stub
-		return false;
+		return null;
 	}
 
 }
