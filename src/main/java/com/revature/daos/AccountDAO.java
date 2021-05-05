@@ -9,6 +9,7 @@ public interface AccountDAO {
 	public List<Account> findAll();
 	public Account findByAccountId(int accountId);
 	public Account findByUserId(int userId); 		//added later
+	public double findAccountBalance(double balance);
 	public boolean addAccount(Account account);
 	
 }

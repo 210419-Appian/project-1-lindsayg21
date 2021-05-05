@@ -20,21 +20,19 @@ public class UserDAOImpl implements UserDAO {
 	public List<User> findAll() {
 		try (Connection conn = ConnectionUtil.getConnection()) {
 
-			String sql = "SELECT * FROM user_role;";
+			String sql = "SELECT * FROM user_info;";
 
 			Statement statement = conn.createStatement();
 
 			ResultSet result = statement.executeQuery(sql);
 
 			List<User> list = new ArrayList<>();
-
-			
 			
 			while (result.next()) {
 				User user = new User(
 						result.getInt("user_id"), 
 						result.getString("username"), 
-						result.getString("password"), 
+						result.getString("pass_word"), 
 						result.getString("first_name"), 
 						result.getString("last_name"), 
 						result.getString("email"),
@@ -42,7 +40,7 @@ public class UserDAOImpl implements UserDAO {
 						);
 				String roleName = result.getString("user_role");
 				if(roleName!=null) {
-					user.setRole(rDao.findByRoleTitle(roleName));
+					user.setRole(rDao.findByRoleTitle(roleName)); //??
 				}
 				list.add(user);
 			}
@@ -119,7 +117,7 @@ public class UserDAOImpl implements UserDAO {
 			//statement.setString(++index, user.getRole());
 			
 			if(user.getRole() != null) {
-				statement.setString(++index, user.getRole().getRole());		//haha
+				statement.setString(++index, user.getRole().getRole());		
 			} else {
 				statement.setString(++index, null);
 			}

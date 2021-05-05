@@ -30,6 +30,7 @@ public class RoleDAOImpl implements RoleDAO {
 				role.setRoleId(result.getInt("role_id"));
 				role.setRole(result.getString("role_title"));
 				list.add(role);
+				//retrieving roles already in database
 			}
 
 			return list;
@@ -56,14 +57,13 @@ public class RoleDAOImpl implements RoleDAO {
 			
 			Role role = new Role();
 
-
 			while (result.next()) {
 				role.setRoleId(result.getInt("role_id"));
 				role.setRole(result.getString("role_title"));
 				list.add(role);
 			}
 
-			return role;
+			return role;	
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -82,16 +82,12 @@ public class RoleDAOImpl implements RoleDAO {
 			statement.setString(1, role);
 
 			ResultSet result = statement.executeQuery();
-
-			List<Role> list = new ArrayList<>();
 			
 			Role r = new Role();
-
 
 			while (result.next()) {
 				r.setRoleId(result.getInt("role_id"));
 				r.setRole(result.getString("role_title"));
-				list.add(r);
 			}
 
 			return r;
