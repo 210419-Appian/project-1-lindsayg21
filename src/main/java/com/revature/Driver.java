@@ -51,8 +51,23 @@ public class Driver {
 		System.out.println("============================================");
 		
 		System.out.println("Find User by user id");
-		User u = uService.findByUserId(3);
-		System.out.println(u);
+		User u1 = uService.findByUserId(1);
+		System.out.println(u1);
+		
+		System.out.println();
+		
+		User u2 = uService.findByUserId(2);
+		System.out.println(u2);
+		
+		System.out.println();
+		
+		User u3 = uService.findByUserId(5);
+		System.out.println(u3);
+		
+		System.out.println();
+		
+		User u4 = uService.findByUserId(6);
+		System.out.println(u4);
 		
 		System.out.println("============================================");
 		
@@ -99,17 +114,17 @@ public class Driver {
 			System.out.println(a);
 		}
 		
-	
 		//List<Account> listAccounts = accService.createAccount();
 		//System.out.println(listAccounts);
 		
 		System.out.println("============================================");
 		
-		/*System.out.println("Find Account by account id");
-		Account acc1 = accService.findByAccountId(1);
+		System.out.println("Find Account by account id");
+		Account acc1 = accService.findByAccountId(3);
 		System.out.println(acc1);
-		Account acc2 = accService.findByAccountId(1);
-		System.out.println(acc2);*/
+		
+		//Account acc2 = accService.findByAccountId(1);
+		//System.out.println(acc2);*/
 		
 	}
 

@@ -78,9 +78,9 @@ public class UserDAOImpl implements UserDAO {
 						null
 						);
 				int roleId = result.getInt("user_role");
-				if(roleId != 0) {
+				//if(roleId != 0) {
 					user.setRole(rDao.findByRoleId(roleId));
-				}
+				//}
 				//list.add(user);
 			}
 
