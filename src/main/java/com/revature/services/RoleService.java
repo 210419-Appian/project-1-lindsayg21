@@ -11,11 +11,7 @@ public class RoleService {
 	private RoleDAO rDao = new RoleDAOImpl();
 
 	public List<Role> getAllRoles() {
-
-		List<Role> list = rDao.findAll();
-		
-		return list;
-
+		return rDao.findAll();
 	}
 	
 	public Role findByRole(String role) {

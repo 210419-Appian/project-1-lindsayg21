@@ -38,26 +38,15 @@ public class UserDAOImpl implements UserDAO {
 						result.getString("email"),
 						null
 						);
-				String roleName = result.getString("user_role");
-				if(roleName!=null) {
-					user.setRole(rDao.findByRoleTitle(roleName)); //??
+				int roleId = result.getInt("user_role");
+				if(roleId!=0) {
+					user.setRole(rDao.findByRoleId(roleId)); 
 				}
 				list.add(user);
 			}
-			
-//			while (result.next()) {
-//				User user = new User();
-//				user.setUserId(result.getInt("user_id"));
-//				user.setUsername(result.getString("username"));
-//				user.setPassword(result.getString("pass_word"));
-//				user.setFirstName(result.getString("first_name"));
-//				user.setLastName(result.getString("last_name"));
-//				user.setEmail(result.getString("email"));
-//				user.setRole(result.getString("user_role"));
-//				list.add(user);
-//			}
 
 			return list;
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -68,27 +57,31 @@ public class UserDAOImpl implements UserDAO {
 	public User findByUserId(int userId) {
 		try (Connection conn = ConnectionUtil.getConnection()) {
 
-			String sql = "SELECT * FROM user_role WHERE user_id = ?;";
+			String sql = "SELECT * FROM user_info WHERE user_id = " +userId+";";
 
-			PreparedStatement statement = conn.prepareStatement(sql);
+			Statement statement = conn.createStatement();
 
-			statement.setInt(1, userId);
+			ResultSet result = statement.executeQuery(sql);
 
-			ResultSet result = statement.executeQuery();
+			//List<User> list = new ArrayList<>();
 
-			List<User> list = new ArrayList<>();
-
-			User user = new User();
+			User user = null;
 
 			while (result.next()) {
-				user.setUserId(result.getInt("user_id"));
-				user.setUsername(result.getString("username"));
-				user.setPassword(result.getString("pass_word"));
-				user.setFirstName(result.getString("first_name"));
-				user.setLastName(result.getString("last_name"));
-				user.setEmail(result.getString("email"));
-				// user.setRole(result.getString("user_role"));
-				list.add(user);
+				user = new User(
+						result.getInt("user_id"),
+						result.getString("username"),
+						result.getString("pass_word"),
+						result.getString("first_name"),
+						result.getString("last_name"),
+						result.getString("email"),
+						null
+						);
+				int roleId = result.getInt("user_role");
+				if(roleId != 0) {
+					user.setRole(rDao.findByRoleId(roleId));
+				}
+				//list.add(user);
 			}
 
 			return user;
@@ -114,7 +107,7 @@ public class UserDAOImpl implements UserDAO {
 			statement.setString(++index, user.getFirstName());
 			statement.setString(++index, user.getLastName());
 			statement.setString(++index, user.getEmail());
-			//statement.setString(++index, user.getRole());
+			//statement.setString(++index, user.getRole().getRole());
 			
 			if(user.getRole() != null) {
 				statement.setString(++index, user.getRole().getRole());		
@@ -134,9 +127,63 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public boolean updateUser(User user) {
-		// TODO Auto-generated method stub
-		return false;
+	public void updateUser(User user) {
+		try(Connection conn = ConnectionUtil.getConnection()){
+			String sql = "UPDATE user_info SET username = ?, pass_word = ?, first_name = ?, last_name = ?, email = ?, user_role = ?"
+					+ "WHERE user_id = ?;";
+			
+			PreparedStatement statement = conn.prepareStatement(sql);
+			
+			int index = 0;
+			statement.setString(++index, user.getUsername());
+			statement.setString(++index, user.getPassword());
+			statement.setString(++index, user.getFirstName());
+			statement.setString(++index, user.getLastName());
+			statement.setString(++index, user.getEmail());
+			//need statement for Role!!!
+			statement.setInt(++index, user.getUserId());	//should be LAST, it's our last parameter
+			//return true;
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		//return null;
+	}
+
+	@Override
+	public User findByUsername(String username) {
+		try (Connection conn = ConnectionUtil.getConnection()) {
+			String sql = "SELECT * FROM user_info WHERE username = ?;";
+			
+			PreparedStatement statement = conn.prepareStatement(sql);
+			
+			statement.setString(1, username);
+			
+			ResultSet result = statement.executeQuery();
+			
+			User user = null;
+			
+			while(result.next()) {
+				user = new User(
+					result.getInt("user_id"),
+					result.getString("username"),
+					result.getString("password"),
+					result.getString("first_name"),
+					result.getString("last_name"),
+					result.getString("email"),
+					null
+					);
+				int roleId = result.getInt("user_role");
+				if(roleId != 0) {
+					user.setRole(rDao.findByRoleId(roleId));
+				}
+			}
+			return user;	
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
+

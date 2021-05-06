@@ -44,22 +44,22 @@ public class AccountStatusDAOImpl implements AccountStatusDAO{
 	public AccountStatus findByAccountId(int statusId) {
 		try (Connection conn = ConnectionUtil.getConnection()) {
 
-			String sql = "SELECT * FROM account_status WHERE status_id = ?;";
-
-			PreparedStatement statement = conn.prepareStatement(sql);
+			String sql = "SELECT * FROM account_status WHERE status_id = "+statusId+";";
 			
-			statement.setInt(1, statusId);
+			Statement statement = conn.createStatement();
 
 			ResultSet result = statement.executeQuery(sql);
-
-			List<AccountStatus> list = new ArrayList<>();
 			
-			AccountStatus accntStatus = new AccountStatus();
+			//List<AccountStatus> list = new ArrayList<>();
+			
+			AccountStatus accntStatus = null;
 			
 			while (result.next()) {
-				accntStatus.setStatusId(result.getInt("status_id"));
-				accntStatus.setStatus(result.getString("accnt_status"));
-				list.add(accntStatus);
+				accntStatus = new AccountStatus(
+						result.getInt("status_id"),
+						result.getString("accnt_status")
+				);
+				//list.add(accntStatus);
 			}
 
 			return accntStatus;
@@ -85,7 +85,7 @@ public class AccountStatusDAOImpl implements AccountStatusDAO{
 			AccountStatus accntStatus = new AccountStatus();
 
 			while (result.next()) {
-				accntStatus.setStatusId(result.getInt("statuse_id"));
+				accntStatus.setStatusId(result.getInt("status_id"));
 				accntStatus.setStatus(result.getString("accnt_status"));
 			}
 

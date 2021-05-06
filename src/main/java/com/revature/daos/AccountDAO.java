@@ -6,10 +6,12 @@ import com.revature.models.Account;
 
 public interface AccountDAO {
 
-	public List<Account> findAll();
-	public Account findByAccountId(int accountId);
-	public Account findByUserId(int userId); 		//added later
-	public double findAccountBalance(double balance);
-	public boolean addAccount(Account account);
+	public List<Account> findAll();						//
+	public Account findByAccountId(int accountId); 		//
+	//should this ^ have return type of List?
+	public Account findByUserId(int userId); 			//
+	public double findAccountBalance(int accountId);	//
+	public boolean addAccount(Account account);			//
+	public boolean updateAccount(Account account);		//
 	
 }

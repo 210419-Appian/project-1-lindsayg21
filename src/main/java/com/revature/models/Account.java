@@ -34,6 +34,14 @@ public class Account implements Serializable{
 		this.user = user;
 	}
 
+	public Account(double balance, AccountStatus status, AccountType type, User user) {
+		super();
+		this.balance = balance;
+		this.status = status;
+		this.type = type;
+		this.user = user;
+	}
+
 	public Account(int accountId, double balance, AccountStatus status, AccountType type, User user) {
 		super();
 		this.accountId = accountId;

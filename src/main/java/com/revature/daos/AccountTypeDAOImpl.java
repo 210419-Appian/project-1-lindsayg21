@@ -44,22 +44,23 @@ public class AccountTypeDAOImpl implements AccountTypeDAO{
 	public AccountType findByAccountTypeId(int typeId) {
 		try (Connection conn = ConnectionUtil.getConnection()) {
 
-			String sql = "SELECT * FROM account_type WHERE type_id = ?;";
+			String sql = "SELECT * FROM account_type WHERE type_id = "+typeId+";";
 
-			PreparedStatement statement = conn.prepareStatement(sql);
-			
-			statement.setInt(1, typeId);
+			Statement statement = conn.createStatement();
 
 			ResultSet result = statement.executeQuery(sql);
 
-			List<AccountType> list = new ArrayList<>();
+			//List<AccountType> list = new ArrayList<>();
 			
-			AccountType accntType = new AccountType();
+			//AccountType accntType = new AccountType();
+			AccountType accntType = null;
 			
 			while (result.next()) {
-				accntType.setTypeId(result.getInt("type_id"));
-				accntType.setType(result.getString("accnt_type"));
-				list.add(accntType);
+				accntType = new AccountType(
+						result.getInt("type_id"),
+						result.getString("accnt_type")
+				);
+				//list.add(accntType);
 			}
 
 			return accntType;
@@ -85,8 +86,8 @@ public class AccountTypeDAOImpl implements AccountTypeDAO{
 			AccountType accntType = new AccountType();
 
 			while (result.next()) {
-				accntType.setTypeId(result.getInt("statuse_id"));
-				accntType.setType(result.getString("accnt_status"));
+				accntType.setTypeId(result.getInt("type_id"));
+				accntType.setType(result.getString("accnt_type"));
 			}
 
 			return accntType;
