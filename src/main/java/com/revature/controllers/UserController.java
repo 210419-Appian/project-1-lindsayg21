@@ -13,7 +13,8 @@ import com.revature.models.User;
 import com.revature.services.UserService;
 
 public class UserController {
-
+//not a servlet
+	
 	private UserService uService = new UserService();
 	private ObjectMapper om = new ObjectMapper();
 	
@@ -26,12 +27,13 @@ public class UserController {
 		PrintWriter pw = resp.getWriter();
 		pw.print(json);
 		resp.setStatus(200);
+		//set as 200 bc OK
 		
 	}
 	
-	public void getUserByUsername(HttpServletResponse resp, String string) throws IOException{
+	public void getUserByUsername(HttpServletResponse resp, String username) throws IOException{
 		
-		User user = uService.findByUsername(string);
+		User user = uService.findByUsername(username);
 		
 		String json = om.writeValueAsString(user);
 		System.out.println(json);
