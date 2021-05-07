@@ -13,5 +13,6 @@ public interface AccountDAO {
 	public double findAccountBalance(int accountId);	//
 	public boolean addAccount(Account account);			//
 	public boolean updateAccount(Account account);		//
+	public boolean deleteAccount(int accountId);
 	
 }

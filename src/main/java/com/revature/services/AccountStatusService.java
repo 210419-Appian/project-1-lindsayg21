@@ -12,7 +12,7 @@ public class AccountStatusService {
 	
 	private AccountStatusDAO accStatusDao = new AccountStatusDAOImpl();
 	
-	public List<AccountStatus> findAll(){
+	public List<AccountStatus> getAllAccountStatuses(){
 		return accStatusDao.findAll();
 	}
 	

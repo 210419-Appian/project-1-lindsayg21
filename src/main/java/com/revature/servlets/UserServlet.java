@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 public class UserServlet extends HttpServlet{
 
 	/**
@@ -23,7 +22,7 @@ public class UserServlet extends HttpServlet{
 		
 		//Print writers allow us to put text into the body of the response. 
 		PrintWriter pw = resp.getWriter();
-		pw.print("<h1>Hello from your doGet Method!</h1>");
+		pw.print("<h1>Hello from doGet Method in UserServlet!</h1>");
 		
 	}
 	

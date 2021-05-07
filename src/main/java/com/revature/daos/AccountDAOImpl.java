@@ -19,6 +19,7 @@ public class AccountDAOImpl implements AccountDAO {
 	private static AccountTypeDAO atDao = new AccountTypeDAOImpl();
 
 	@Override
+	//done!
 	public List<Account> findAll() {
 		try (Connection conn = ConnectionUtil.getConnection()) {
 
@@ -39,9 +40,12 @@ public class AccountDAOImpl implements AccountDAO {
 						null, 
 						null,
 						null);
-				int accountStatus = result.getInt("status_id");
-				int accountType = result.getInt("type_id");
-				int accountUser = result.getInt("user_id");
+				int accountStatus = result.getInt("account_status");
+				account.setStatus(asDao.findByAccountId(accountStatus));
+				int accountType = result.getInt("account_type");
+				account.setType(atDao.findByAccountTypeId(accountType));
+				int accountUser = result.getInt("account_user");
+				account.setUser(uDao.findByUserId(accountUser));
 
 				/*
 				 * if(accountStatus != 0) {
@@ -50,10 +54,7 @@ public class AccountDAOImpl implements AccountDAO {
 				 * account.setType(atDao.findByAccountTypeId(accountType)); } list.add(account);
 				 * if(accountUser != 0l) { account.setUser(uDao.findByUserId(accountUser)); }
 				 */
-				account.setStatus(asDao.findByAccountId(accountStatus));
-				account.setType(atDao.findByAccountTypeId(accountType));
-				account.setUser(uDao.findByUserId(accountUser));
-
+				
 				list.add(account);
 			}
 
@@ -66,6 +67,7 @@ public class AccountDAOImpl implements AccountDAO {
 	}
 
 	@Override
+	//done!
 	public Account findByAccountId(int accountId) {
 		try (Connection conn = ConnectionUtil.getConnection()) {
 
@@ -80,14 +82,18 @@ public class AccountDAOImpl implements AccountDAO {
 			Account account = null;
 
 			while (result.next()) {
-				account = new Account(result.getInt("account_id"), result.getDouble("account_balance"), null, null,
+				account = new Account(
+						result.getInt("account_id"), 
+						result.getDouble("account_balance"), 
+						null,
+						null,
 						null);
 
-				int accountStatus = result.getInt("status_id");
+				int accountStatus = result.getInt("account_status");
 				account.setStatus(asDao.findByAccountId(accountStatus));
-				int accountType = result.getInt("type_id");
+				int accountType = result.getInt("account_type");
 				account.setType(atDao.findByAccountTypeId(accountType));
-				int accountUser = result.getInt("user_id");
+				int accountUser = result.getInt("account_id");
 				account.setUser(uDao.findByUserId(accountUser));
 
 				// account.setStatus(asDao.findByAccountId(accountStatus));
@@ -112,16 +118,66 @@ public class AccountDAOImpl implements AccountDAO {
 	}
 
 	@Override
+	//make a list???
 	public Account findByUserId(int userId) {
 		try (Connection conn = ConnectionUtil.getConnection()) {
+			String sql = "SELECT * FROM account WHERE account_user = " + userId + ";";
+			
+			Statement statement = conn.createStatement();
 
-			// return account;
+			ResultSet result = statement.executeQuery(sql);
+
+			// List<Account> list = new ArrayList<>();
+
+			Account account = null;
+
+			while (result.next()) {
+				account = new Account(
+						result.getInt("account_id"), 
+						result.getDouble("account_balance"), 
+						null,
+						null,
+						null);
+
+				int accountStatus = result.getInt("account_status");
+				account.setStatus(asDao.findByAccountId(accountStatus));
+				int accountType = result.getInt("account_type");
+				account.setType(atDao.findByAccountTypeId(accountType));
+				int accountUser = result.getInt("account_id");
+				account.setUser(uDao.findByUserId(accountUser));
+			}
+			
+			return account;
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
 
+	@Override
+	//done! 
+	public double findAccountBalance(int accountId) {
+		try (Connection conn = ConnectionUtil.getConnection()) {
+			String sql = "SELECT account_balance FROM account WHERE account_id = " + accountId + ";";
+
+			Statement statement = conn.createStatement();
+
+			ResultSet result = statement.executeQuery(sql);
+
+			result.next();
+			double accountBalance = result.getDouble("account_balance");
+			// here: getting result from DB, from "account_balance", turning into a double.
+			
+
+			return accountBalance;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
 	@Override
 	public boolean addAccount(Account account) {
 		try (Connection conn = ConnectionUtil.getConnection()) {
@@ -163,29 +219,26 @@ public class AccountDAOImpl implements AccountDAO {
 
 	@Override
 	// not done
-	public double findAccountBalance(int accountId) {
-		try (Connection conn = ConnectionUtil.getConnection()) {
-			String sql = "SELECT account_balance FROM account;";
-
-			Statement statement = conn.createStatement();
-
-			ResultSet result = statement.executeQuery(sql);
-
-			double accountBalance = result.getDouble("account_balance");
-			// here: getting result from DB, from "account_balance", turning into a double.
-
-			return accountBalance;
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return 0;
+	public boolean updateAccount(Account account) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
-	// not done
-	public boolean updateAccount(Account account) {
-		// TODO Auto-generated method stub
+	public boolean deleteAccount(int accountId) {
+		try(Connection conn = ConnectionUtil.getConnection()){
+			
+			String sql = "DELETE FROM account WHERE account_id = " + accountId + ";";
+			
+			Statement statement = conn.createStatement();
+			
+			statement.execute(sql);
+			
+			return true;
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 

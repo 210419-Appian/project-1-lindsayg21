@@ -25,13 +25,22 @@ public class UserService {
 		return uDao.findByUserId(userId);
 	}
 	
+	public User findByUsername(String username) {
+		return uDao.findByUsername(username);
+	}
+	
 	public boolean createUser(User user) {
 		return uDao.addUser(user);
 	}
 	
 	public void updateUser(User user) {
 		//need to be able to change name, email... everything.
+		//reference his update avenger from hellofrontcontroller
 		uDao.updateUser(user);
+	}
+	
+	public boolean removeUser(int userId) {
+		return uDao.deleteUser(userId);
 	}
 	
 }

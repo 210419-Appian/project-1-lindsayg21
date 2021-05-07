@@ -22,7 +22,7 @@ public class LogoutServlet extends HttpServlet{
 		
 		//Print writers allow us to put text into the body of the response. 
 		PrintWriter pw = resp.getWriter();
-		pw.print("<h1>Hello from your doGet Method!</h1>");
+		pw.print("<h1>Hello from your doGet Method in LogoutServlet!</h1>");
 		
 	}
 

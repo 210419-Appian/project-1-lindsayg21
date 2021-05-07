@@ -13,7 +13,8 @@ import com.revature.models.Account;
 public class AccountService {
 
 	private AccountDAO accDao = new AccountDAOImpl();
-
+	
+	
 	public List<Account> getAllAccounts() {
 		return accDao.findAll();
 	}
@@ -22,14 +23,69 @@ public class AccountService {
 		return accDao.findByAccountId(accountId);
 	}
 
-	public Account findByUserId(int userId) {
+	public Account findOneUser(int userId) {
 		return accDao.findByUserId(userId);
 	}
+
+	public double getAccountBalance(int accountId) {
+		return accDao.findAccountBalance(accountId);
+	}
+
+	// need: account id, amount to withdraw
+	public double withdraw(int accountId, double amount) {
+
+		double balance = accDao.findAccountBalance(accountId);
+		
+		if (amount <= balance) {
+			balance -= amount;
+			System.out.println("Your new account balance is: $" + balance);
+		} else {
+			System.out.println("You don't have enough funds to make this transaction");
+			return balance;
+		}
+
+		return balance;
+	}
 	
+	public double deposit(int accountId, double amount) {
+		
+		double balance = accDao.findAccountBalance(accountId);
+		
+		balance += amount;
+		
+		System.out.println("Your new account balance is $" + balance);
+		
+		return balance;
+	}
+	
+	public boolean transferMoney(int accountIdToWithdraw, int accountIdToDeposit, double amount) {
+		
+		double balanceOfWithdrawAccount = accDao.findAccountBalance(accountIdToWithdraw);
+		
+		double balanceOfDepositAccount = accDao.findAccountBalance(accountIdToDeposit);
+		
+		if(amount <= balanceOfWithdrawAccount) {
+			balanceOfWithdrawAccount -= amount;
+			balanceOfDepositAccount += amount;
+			System.out.println("Account number " + accountIdToWithdraw + " now has a balance of $" + balanceOfWithdrawAccount);
+			System.out.println("Account number " + accountIdToDeposit + " now has a balance of $" + balanceOfDepositAccount);
+		}
+		else {
+			System.out.println("Account number " + accountIdToWithdraw + " doesn't have enough funds to complete this transfer.");
+			return false; 
+		}
+		
+		return true;
+	}
+
 	public boolean createAccount(Account account) {
 		return accDao.addAccount(account);
 	}
 
+	public boolean removeAccount(int accountId) {
+		return accDao.deleteAccount(accountId);
+	}
+	
 	// represents single account for a user
 	// this is the BUSINESS logic
 	// needs review

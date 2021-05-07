@@ -167,7 +167,7 @@ public class UserDAOImpl implements UserDAO {
 				user = new User(
 					result.getInt("user_id"),
 					result.getString("username"),
-					result.getString("password"),
+					result.getString("pass_word"),
 					result.getString("first_name"),
 					result.getString("last_name"),
 					result.getString("email"),
@@ -183,6 +183,26 @@ public class UserDAOImpl implements UserDAO {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public boolean deleteUser(int userId) {
+		try (Connection conn = ConnectionUtil.getConnection()) {
+			String sql1 = "DELETE FROM account WHERE account_user = " + userId + ";";
+			String sql2 = "DELETE FROM user_info WHERE user_id = "+ userId + ";";
+			
+			Statement statement = conn.createStatement();
+			
+			statement.execute(sql1);
+			statement.execute(sql2);
+			
+			return true;
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+
+		return false;
 	}
 
 }

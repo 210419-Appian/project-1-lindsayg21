@@ -9,5 +9,4 @@ public interface RoleDAO {
 	public List<Role> findAll();
 	public Role findByRoleId(int roleId);
 	public Role findByRoleTitle(String role); 		
-	
 }
