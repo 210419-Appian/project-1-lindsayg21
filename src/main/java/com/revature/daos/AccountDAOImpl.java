@@ -166,10 +166,10 @@ public class AccountDAOImpl implements AccountDAO {
 			ResultSet result = statement.executeQuery(sql);
 
 			result.next();
+			//result.next();
 			double accountBalance = result.getDouble("account_balance");
 			// here: getting result from DB, from "account_balance", turning into a double.
-			
-
+		
 			return accountBalance;
 
 		} catch (SQLException e) {
@@ -188,25 +188,9 @@ public class AccountDAOImpl implements AccountDAO {
 
 			int index = 0;
 			statement.setDouble(++index, account.getBalance());
-//			statement.setString(++index, null);
-//			statement.setString(++index, null);
-//			statement.setString(++index, null);
-
-			if (account.getStatus() != null) {
-				statement.setString(++index, account.getStatus().getStatus());
-			} else {
-				statement.setString(++index, null);
-			}
-			if (account.getType() != null) {
-				statement.setString(++index, account.getType().getType());
-			} else {
-				statement.setString(++index, null);
-			}
-			if (account.getUser() != null) {
-				statement.setString(++index, account.getUser().toString());
-			} else {
-				statement.setString(++index, null);
-			}
+			statement.setInt(++index, account.getStatus().getStatusId());
+			statement.setInt(++index, account.getType().getTypeId());
+			statement.setInt(++index, account.getUser().getUserId());
 
 			statement.execute();
 

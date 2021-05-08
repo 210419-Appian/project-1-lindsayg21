@@ -10,7 +10,7 @@ public interface UserDAO {
 	public User findByUserId(int userId);				//our PK is our userID
 	public User findByUsername(String username);
 	public boolean addUser(User user);					//either successful or not
-	public void updateUser(User user);			
+	public boolean updateUser(User user);			
 	public boolean deleteUser(int userId);
 	//email???
 }

@@ -18,6 +18,11 @@ public class Role implements Serializable {
 		super();
 	}
 
+	public Role(String role) {
+		super();
+		this.role = role;
+	}
+	
 	public Role(int roleId, String role) {
 		super();
 		this.roleId = roleId;

@@ -30,13 +30,56 @@ public class UserService {
 	}
 	
 	public boolean createUser(User user) {
+		/*if(user.getRole() == null) {
+			return aDao.
+			do this after
+		}*/
 		return uDao.addUser(user);
 	}
 	
-	public void updateUser(User user) {
+	public boolean updateTotalUser(User user) {
 		//need to be able to change name, email... everything.
 		//reference his update avenger from hellofrontcontroller
-		uDao.updateUser(user);
+		return uDao.updateUser(user);
+	}
+	
+	//makes sense, but maybe don't let people change first name/last name?
+	//actually, can change these. 
+	public boolean updatePartialUser(User user) {
+		
+		if(user.getUserId() == 0) {
+			return false;
+			//need userId to update a user
+		}
+		
+		User userInfo = findByUserId(user.getUserId());
+		//we have their user id
+		
+		if(user.getUsername() == null) {
+			user.setUsername(userInfo.getUsername());
+		}
+		
+		if(user.getPassword() == null) {
+			user.setPassword(userInfo.getPassword());
+		}
+		
+		if(user.getFirstName() == null) {
+			user.setFirstName(userInfo.getFirstName());
+		}
+
+		if(user.getLastName() == null) {
+			user.setLastName(userInfo.getLastName());
+		}
+		
+		if(user.getEmail() == null) {
+			user.setEmail(userInfo.getEmail());
+		}
+		if(user.getRole() == null) {
+			user.setRole(userInfo.getRole());
+		}
+		
+		return uDao.updateUser(user);
+		//need to figure out what's changing and what isn't
 	}
 	
 	public boolean removeUser(int userId) {

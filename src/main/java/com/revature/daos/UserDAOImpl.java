@@ -57,7 +57,7 @@ public class UserDAOImpl implements UserDAO {
 	public User findByUserId(int userId) {
 		try (Connection conn = ConnectionUtil.getConnection()) {
 
-			String sql = "SELECT * FROM user_info WHERE user_id = " +userId+";";
+			String sql = "SELECT * FROM user_info WHERE user_id = " + userId +";";
 
 			Statement statement = conn.createStatement();
 
@@ -107,13 +107,14 @@ public class UserDAOImpl implements UserDAO {
 			statement.setString(++index, user.getFirstName());
 			statement.setString(++index, user.getLastName());
 			statement.setString(++index, user.getEmail());
+			statement.setInt(++index, user.getRole().getRoleId());
 			//statement.setString(++index, user.getRole().getRole());
 			
-			if(user.getRole() != null) {
+			/*if(user.getRole() != null) {
 				statement.setString(++index, user.getRole().getRole());		
 			} else {
 				statement.setString(++index, null);
-			}
+			}*/
 			
 			statement.execute();
 			
@@ -127,9 +128,11 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public void updateUser(User user) {
+	public boolean updateUser(User user) {
 		try(Connection conn = ConnectionUtil.getConnection()){
-			String sql = "UPDATE user_info SET username = ?, pass_word = ?, first_name = ?, last_name = ?, email = ?, user_role = ?"
+			String sql = "UPDATE user_info "
+					+ "SET username = ?, pass_word = ?, first_name = ?, "
+					+ "last_name = ?, email = ?, user_role = ? "
 					+ "WHERE user_id = ?;";
 			
 			PreparedStatement statement = conn.prepareStatement(sql);
@@ -140,14 +143,24 @@ public class UserDAOImpl implements UserDAO {
 			statement.setString(++index, user.getFirstName());
 			statement.setString(++index, user.getLastName());
 			statement.setString(++index, user.getEmail());
-			//need statement for Role!!!
-			statement.setInt(++index, user.getUserId());	//should be LAST, it's our last parameter
-			//return true;
+			statement.setInt(++index, user.getRole().getRoleId());
+			/*if(user.getRole() != null) {
+				statement.setString(++index, user.getRole().getRole());	//should be LAST, it's our last parameter
+			}
+			else {
+				statement.setString(++index, null);
+			}*/
 			
+			statement.setInt(++index, user.getUserId());
+			//last part we're getting
+			
+			statement.execute();
+			
+			return true;
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
-		//return null;
+		return false;
 	}
 
 	@Override

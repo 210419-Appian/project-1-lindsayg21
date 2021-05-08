@@ -62,8 +62,8 @@ public class Driver {
 		System.out.println("============================================");
 
 		System.out.println("Create a User");
-		// User newUser = uService.createUser("charliesAngelz", "giantDog1", "Amy",
-		// "Zebra", "amyz@gmail.com", 2, "Employee");
+		//User newUser = new User("charliesAngelz", "giantDog1", "Amy",
+		//"Zebra", "amyz@gmail.com", 2);
 
 		System.out.println("============================================");
 
@@ -139,24 +139,24 @@ public class Driver {
 		System.out.println("============================================");
 
 		System.out.println("Find Account by account id");
-		Account acc1 = accService.findByAccountId(1);
-		System.out.println(acc1);
+		//Account acc1 = accService.findByAccountId(1);
+		//System.out.println(acc1);
 
 		System.out.println();
 
-		Account acc2 = accService.findByAccountId(2);
-		System.out.println(acc2);
+		//Account acc2 = accService.findByAccountId(2);
+		//System.out.println(acc2);
 
 		System.out.println("============================================");
 
-		System.out.println("Find Account by user id");
-		Account userAccount1 = accService.findOneUser(1);
-		System.out.println(userAccount1);
+		//System.out.println("Find Account by user id");
+		//Account userAccount1 = accService.findOneUser(1);
+		//System.out.println(userAccount1);
 
 		System.out.println();
 
-		Account userAccount2 = accService.findOneUser(1);
-		System.out.println(userAccount2);
+		//Account userAccount2 = accService.findOneUser(1);
+		//System.out.println(userAccount2);
 
 		System.out.println("============================================");
 
@@ -168,7 +168,7 @@ public class Driver {
 
 		System.out.println("Withdraw Balance from an Account");
 
-		double withdrawAttempt = accService.withdraw(3, 30.00);
+		boolean withdrawAttempt = accService.withdraw(3, 30.00);
 		System.out.println(withdrawAttempt);
 
 		System.out.println("============================================");

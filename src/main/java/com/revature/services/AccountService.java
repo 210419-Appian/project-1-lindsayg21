@@ -32,7 +32,7 @@ public class AccountService {
 	}
 
 	// need: account id, amount to withdraw
-	public double withdraw(int accountId, double amount) {
+	public boolean withdraw(int accountId, double amount) {
 
 		double balance = accDao.findAccountBalance(accountId);
 		
@@ -41,10 +41,10 @@ public class AccountService {
 			System.out.println("Your new account balance is: $" + balance);
 		} else {
 			System.out.println("You don't have enough funds to make this transaction");
-			return balance;
+			return false;
 		}
 
-		return balance;
+		return true;
 	}
 	
 	public double deposit(int accountId, double amount) {
