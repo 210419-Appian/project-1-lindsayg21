@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.revature.controllers.AccountController;
 import com.revature.controllers.RoleController;
 import com.revature.controllers.UserController;
+import com.revature.models.UserDTO;
 
 public class FrontControllerServlet extends HttpServlet {
 
@@ -18,6 +19,7 @@ public class FrontControllerServlet extends HttpServlet {
 	private RoleController rControl = new RoleController();
 	private UserController uControl = new UserController();
 	private AccountController accControl = new AccountController();
+	private UserDTO uDTo = new UserDTO();
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -41,19 +43,18 @@ public class FrontControllerServlet extends HttpServlet {
 
 		System.out.println(sections);
 
-		// path variable -- way to pass info about request in the URL
-		// usually a final / that takes variable input
-
-		// need to include switch statements for Get, Post etc later!
-
-		// switch on first section that comes through
 		switch (sections[0]) {
 		// also need login and logout
-		/*case "login":
-			if(req.getMethod().equals("GET")){
-				
+		case "login":
+			if (req.getMethod().equals("POST")) {
+				uControl.login(req, resp);
 			}
-			break;*/
+			break;
+		case "logout":
+			if (req.getMethod().equals("POST")) {
+				uControl.logout(req, resp);
+			}
+			break;
 		case "roles":
 			if (req.getMethod().equals("GET")) {
 				if (sections.length == 2) {
@@ -64,32 +65,33 @@ public class FrontControllerServlet extends HttpServlet {
 				}
 			}
 			break;
-
 		case "register":
-			if(req.getMethod().equals("POST")) {
-				uControl.addUser(req, resp);
+			if (req.getMethod().equals("POST")) {
+				uControl.register(req, resp);
 			}
 		case "users":
 			if (req.getMethod().equals("GET")) {
 				if (sections.length == 2) {
 					int userId = Integer.parseInt(sections[1]);
 					uControl.getUserByUserId(resp, userId);
-					// this gives us all the user info; only admins and employees
-				} else {
-					uControl.getAllUsers(resp);
-					// send request to a User controller
 				}
-			} 
-			/*else if (req.getMethod().equals("POST")) {
-				uControl.addUser(req, resp);
-			} */
+				// this gives us all the user info; only admins and employees
+				else if (sections.length == 3 && sections[1].equals("owner")) {
+					String str = sections[2];
+					uControl.getUserByUsername(resp, str);
+				} else {
+					uControl.getAllUsers(req, resp); // ?
+				}
+			}
+
 			else if (req.getMethod().equals("PUT") && sections.length == 2) {
 				uControl.putUser(req, resp);
-			} 
-			else if (req.getMethod().equals("PATCH") && sections.length == 2) {
-				uControl.patchUser(req, resp);
 			}
-			else if(req.getMethod().equals("DELETE") && sections.length == 2) {
+			/*
+			 * else if (req.getMethod().equals("PATCH") && sections.length == 2) {
+			 * uControl.patchUser(req, resp); }
+			 */
+			else if (req.getMethod().equals("DELETE") && sections.length == 2) {
 				uControl.deleteUser(resp, sections[1]);
 			}
 			break;
@@ -100,43 +102,47 @@ public class FrontControllerServlet extends HttpServlet {
 					// PK for account: accountId
 					int accountId = Integer.parseInt(sections[1]);
 					accControl.getByAccountId(resp, accountId);
+				} else if (sections[1].equals("owner") && sections.length == 3) {
+					int userId = Integer.parseInt(sections[2]);
+					accControl.getAccountByUserId(resp, userId);
+					// get by user ID!!!
+				} else if (sections[1].equals("status") && sections.length == 3) {
+					int accStatId = Integer.parseInt(sections[2]);
+					accControl.getAccountByStatusId(resp, accStatId);
 				} else {
 					accControl.getAllAccounts(resp);
-					//this should only be allowed for Admins and Employees
+					// this should only be allowed for Admins and Employees
 				}
-			} 
-			else if (req.getMethod().equals("POST")) {
+			} else if (req.getMethod().equals("POST")) {
 				accControl.addAccount(req, resp);
-			}
-			else if (req.getMethod().equals("PATCH") && sections.length == 4) {
+			} else if (req.getMethod().equals("PUT")) {
+				accControl.putAccount(req, resp);
+			} else if (req.getMethod().equals("PATCH") && sections.length == 4) {
 				int accountId = Integer.parseInt(sections[2]);
 				double amount = Double.parseDouble(sections[3]);
-				if(sections.length == 3) {
+				if (sections.length == 3) {
 					accControl.withdrawFromAccount(req, resp, accountId, amount);
 				}
+			} else if (req.getMethod().equals("DELETE") && sections.length == 2) {
+				accControl.deleteAccount(resp, sections[1]);
 			}
 			break;
 		case "accounts/withdraw":
-			if(req.getMethod().equals("GET")) {
+			if (req.getMethod().equals("GET")) {
 				int accountId = Integer.parseInt(sections[2]);
 				double amount = Double.parseDouble(sections[3]);
-				if(sections.length == 3) {
+				if (sections.length == 3) {
 					accControl.withdrawFromAccount(req, resp, accountId, amount);
 				}
 			}
-	/*	case "accounts/deposit":
-			if(req.getMethod().equals("GET")) {
-				
-			}*/
-		}//ends switch statement
+
+		}// ends switch statement
 
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// this is to create Users/Accounts
 		doGet(req, resp);
-		// now we don't need to write a *bunch* of switch statements
 
 	}
 
@@ -153,12 +159,5 @@ public class FrontControllerServlet extends HttpServlet {
 	protected void doPatch(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		doGet(req, resp);
 	}
-
-	/*
-	 * @Override protected void service(HttpServletRequest req, HttpServletResponse
-	 * resp) throws ServletException, IOException{
-	 * if(req.getMethod().equals("PATCH")){ doPatch(req, resp); } else {
-	 * super.service(req, resp); } }
-	 */
 
 }

@@ -12,5 +12,6 @@ public interface UserDAO {
 	public boolean addUser(User user);					//either successful or not
 	public boolean updateUser(User user);			
 	public boolean deleteUser(int userId);
-	//email???
+	//public User findUserRole(int userId);
+
 }

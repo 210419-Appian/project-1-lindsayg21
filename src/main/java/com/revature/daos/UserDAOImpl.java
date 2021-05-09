@@ -144,15 +144,7 @@ public class UserDAOImpl implements UserDAO {
 			statement.setString(++index, user.getLastName());
 			statement.setString(++index, user.getEmail());
 			statement.setInt(++index, user.getRole().getRoleId());
-			/*if(user.getRole() != null) {
-				statement.setString(++index, user.getRole().getRole());	//should be LAST, it's our last parameter
-			}
-			else {
-				statement.setString(++index, null);
-			}*/
-			
 			statement.setInt(++index, user.getUserId());
-			//last part we're getting
 			
 			statement.execute();
 			
@@ -198,6 +190,42 @@ public class UserDAOImpl implements UserDAO {
 		return null;
 	}
 
+	/*@Override
+	public User findUserRole(int userId) {
+		try (Connection conn = ConnectionUtil.getConnection()){
+			
+			String sql = "SELECT user_role FROM user_info WHERE user_id = " + userId +";";
+
+			Statement statement = conn.createStatement();
+
+			ResultSet result = statement.executeQuery(sql);
+			
+			User user = null;
+			
+			while (result.next()) {
+				user = new User(
+						result.getInt("user_id"),
+						result.getString("username"),
+						result.getString("pass_word"),
+						result.getString("first_name"),
+						result.getString("last_name"),
+						result.getString("email"),
+						null
+						);
+				int roleId = result.getInt("user_role");
+				//if(roleId != 0) {
+					user.setRole(rDao.findByRoleId(roleId));
+				//}
+				//list.add(user);
+			}
+			
+			return user;
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}*/
+	
 	@Override
 	public boolean deleteUser(int userId) {
 		try (Connection conn = ConnectionUtil.getConnection()) {

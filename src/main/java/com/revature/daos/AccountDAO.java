@@ -10,9 +10,12 @@ public interface AccountDAO {
 	public Account findByAccountId(int accountId); 		//
 	//should this ^ have return type of List?
 	public Account findByUserId(int userId); 			//
+	public Account findByAccountStatusId(int accStatId);
 	public double findAccountBalance(int accountId);	//
 	public boolean addAccount(Account account);			//
 	public boolean updateAccount(Account account);		//
 	public boolean deleteAccount(int accountId);
+	public boolean updateAccountStatus(Account account);
+	public boolean addAccountAndUser(Account account);
 	
 }
