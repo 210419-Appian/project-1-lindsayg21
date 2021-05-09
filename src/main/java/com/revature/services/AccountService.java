@@ -50,7 +50,7 @@ public class AccountService {
 
 	// need: account id, amount to withdraw
 	//public boolean withdraw(int accountId, double amount) {
-	public boolean withdraw(BalanceDTO balDTO) {
+	public double withdraw(BalanceDTO balDTO) {
 
 		//Account accReq = accDao.findAccountBalance(balDTO.getAccountId());
 		
@@ -60,12 +60,9 @@ public class AccountService {
 		
 		if (amount <= balance) {
 			balance -= amount;
-			
-			//System.out.println("Your new account balance is: $" + balance);
-			return true;
+			return balance;
 		} else {
-			//System.out.println("You don't have enough funds to make this transaction");
-			return false;
+			return 0.0;
 		}
 
 	}
