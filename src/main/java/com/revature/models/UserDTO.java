@@ -2,8 +2,8 @@ package com.revature.models;
 
 public class UserDTO {
 	
-	public String username;
-	public String password;
+	private String username;
+	private String password;
 	
 	public UserDTO(String username, String password) {
 		super();

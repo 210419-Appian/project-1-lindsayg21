@@ -94,12 +94,12 @@ public class UserService {
 	
 	public boolean checkLoginCredentials(UserDTO uDTO) {
 		
-		User userReq = uDao.findByUsername(uDTO.username); //u.get?
+		User userReq = uDao.findByUsername(uDTO.getUsername()); //u.get?
 		
 		System.out.println(userReq.toString());
 		
 		//if (uDao.findByUsername(uDTO.getUsername()).getPassword() == uDTO.getPassword()) {
-		if((userReq.getPassword() != null) && (uDTO.password.equals(userReq.getPassword()))) {
+		if((userReq.getPassword() != null) && (uDTO.getPassword().equals(userReq.getPassword()))) {
 			return true;
 		}
 		return false;

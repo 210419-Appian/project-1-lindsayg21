@@ -52,9 +52,9 @@ public class UserController {
 		// next the userDTO should be passed to the service layer to check if the
 		if (uService.checkLoginCredentials(uDTO)) {
 
-			pw.print(om.writeValueAsString(uDao.findByUsername(uDTO.username)));
+			pw.print(om.writeValueAsString(uDao.findByUsername(uDTO.getUsername())));
 			HttpSession ses = req.getSession(); // creates cookie!
-			ses.setAttribute("username", uDTO.username);
+			ses.setAttribute("username", uDTO.getUsername());
 
 			resp.setStatus(200);
 
@@ -148,6 +148,7 @@ public class UserController {
 
 		if (req.getSession(false) == null) {
 			pw.print("There is no one logged in.");
+			resp.setStatus(400);
 			return;
 		}
 

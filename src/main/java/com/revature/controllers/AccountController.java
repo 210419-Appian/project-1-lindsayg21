@@ -88,20 +88,20 @@ public class AccountController {
 		HttpSession ses = req.getSession();
 		String str = (String) ses.getAttribute("username"); // reading from session cookie
 		User user = uDao.findByUsername(str);
-		
+
 		Account account = accService.findByAccountId(accountId);
-		
+
 		AccountService accServ = new AccountService();
-		
+
 		AccountDAOImpl aDao = new AccountDAOImpl();
-		
-		//String json = om.writeValueAsString(account);
-		//System.out.println(json);
-		//pw.print(json);
+
+		// String json = om.writeValueAsString(account);
+		// System.out.println(json);
+		// pw.print(json);
 
 		if (user.getRole().getRoleId() == 1) {
 
-			//Account accServ = accService.findByAccountId(accountId);
+			// Account accServ = accService.findByAccountId(accountId);
 
 			String json = om.writeValueAsString(account);
 			System.out.println(json);
@@ -110,8 +110,8 @@ public class AccountController {
 			// set as 200 bc OK
 
 		} else if (user.getRole().getRoleId() == 2) {
-			
-			//Account accServ = accService.findByAccountId(accountId);
+
+			// Account accServ = accService.findByAccountId(accountId);
 
 			String json = om.writeValueAsString(account);
 			System.out.println(json);
@@ -119,8 +119,8 @@ public class AccountController {
 			resp.setStatus(200);
 
 		} else if (accServ.findByUserId(user.getUserId()) == aDao.findByUserId(accountId)) {
-			//both of these are account objects?
-			//Account accServ = accService.findByAccountId(accountId);
+			// both of these are account objects?
+			// Account accServ = accService.findByAccountId(accountId);
 
 			String json = om.writeValueAsString(account);
 			System.out.println(json);
@@ -163,28 +163,12 @@ public class AccountController {
 		}
 	}
 
-	public void getAccountByStatusId(HttpServletResponse resp, int acctStatId) throws IOException {
-		Account account = accService.findByAccStatId(acctStatId);
-		String json = om.writeValueAsString(account);
-		System.out.println(json);
-		PrintWriter pw = resp.getWriter();
-		pw.print(json);
-		resp.setStatus(200);
-	}
-
-	public void getAccountByUserId(HttpServletResponse resp, int userId) throws IOException {
-		Account account = accService.findByUserId(userId);
-		String json = om.writeValueAsString(account);
-		System.out.println(json);
-		PrintWriter pw = resp.getWriter();
-		pw.print(json);
-		resp.setStatus(200);
-	}
-
-	public void withdraw(HttpServletRequest req, HttpServletResponse resp, int accountId) throws IOException {
+	public void getAccountByStatusId(HttpServletRequest req, HttpServletResponse resp, int acctStatId)
+			throws IOException {
+		// findByAccStatusId returns an Account, so that's good
 
 		PrintWriter pw = resp.getWriter();
-		
+
 		if (req.getSession(false) == null) {
 			pw.print("There is no one logged in.");
 			return;
@@ -193,16 +177,98 @@ public class AccountController {
 		HttpSession ses = req.getSession();
 		String str = (String) ses.getAttribute("username"); // reading from session cookie
 		User user = uDao.findByUsername(str);
-		
-		Account account = accService.findByAccountId(accountId);
-		
-		AccountService accServ = new AccountService();
-		
-		AccountDAOImpl aDao = new AccountDAOImpl();
-		
+		Account account = accService.findByAccStatId(acctStatId); // account with this status Id
+		// crap should this be a list?
+
+		//String json = om.writeValueAsString(account);
+		//System.out.println(json);
+		//pw.print(json);
+		//resp.setStatus(200);
+
+		if (user.getRole().getRoleId() == 1 || user.getRole().getRoleId() == 2) {
+
+			Account aServ = accService.findByAccStatId(acctStatId);
+			String json = om.writeValueAsString(aServ);
+			System.out.println(json);
+			pw.print(json);
+			resp.setStatus(200);
+			
+		} else if (user.getUserId() == accService.findByAccStatId(acctStatId).getUser().getUserId()) {
+			// really long -- checks that the UserId we got as input
+			Account aServ = accService.findByAccStatId(acctStatId);
+			String json = om.writeValueAsString(aServ);
+			System.out.println(json);
+			pw.print(json);
+			resp.setStatus(200);
+
+		} else {
+			pw.print("Unauthorized Request");
+			resp.setStatus(401);
+		}
+	}
+
+	public void getAccountByUserId(HttpServletRequest req, HttpServletResponse resp, int userId) throws IOException {
+
+		PrintWriter pw = resp.getWriter();
+
+		if (req.getSession(false) == null) {
+			pw.print("There is no one logged in.");
+			return;
+		}
+
+		HttpSession ses = req.getSession();
+		String str = (String) ses.getAttribute("username"); // reading from session cookie
+		User user = uDao.findByUsername(str);
+		Account aServ = accService.findByUserId(userId);
+
+		if (user.getRole().getRoleId() == 1 || user.getRole().getRoleId() == 2) {
+
+			// Account aServ = accService.findByUserId(userId);
+
+			String json = om.writeValueAsString(aServ);
+			System.out.println(json);
+			pw.print(json);
+			resp.setStatus(200);
+		} else if (user.getUserId() == accService.findByUserId(userId).getUser().getUserId()) {
+			// really long -- checks that the UserId we got as input
+			// matches the UserId with session's username User
+			String json = om.writeValueAsString(aServ);
+			System.out.println(json);
+			pw.print(json);
+			resp.setStatus(200);
+
+		} else {
+			pw.print("Unauthorized Request");
+			resp.setStatus(401);
+		}
+
+		// Account account = accService.findByUserId(userId);
+		// String json = om.writeValueAsString(account);
+		// System.out.println(json);
+		// pw.print(json);
+		// resp.setStatus(200);
+	}
+
+	public void withdraw(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
+		PrintWriter pw = resp.getWriter();
+
+		if (req.getSession(false) == null) {
+			pw.print("There is no one logged in.");
+			return;
+		}
+
+		HttpSession ses = req.getSession();
+		String str = (String) ses.getAttribute("username"); // reading from session cookie
+		User user = uDao.findByUsername(str);
+		int userId = user.getUserId();
+
+		// AccountService accServ = new AccountService();
+		// AccountDAOImpl aDao = new AccountDAOImpl();
 		BalanceDTO balDTO = new BalanceDTO();
-		//UserService uService = new UserService();
-		//UserDAOImpl uDao = new UserDAOImpl();
+		Account account = accService.findByAccountId(balDTO.getAccountId());
+		// UserService uService = new UserService();
+		// UserDAOImpl uDao = new UserDAOImpl();
 
 		BufferedReader reader = req.getReader();
 
@@ -216,21 +282,28 @@ public class AccountController {
 		}
 
 		String body = new String(sb);
-
 		balDTO = om.readValue(body, BalanceDTO.class);
+		// sets the accountId and balance.
 
-		if (accService.withdraw(balDTO) > 0.0) {
-			//pw.print(om.writeValueAsString(accService.getAccountBalance(balDTO.getAccountId())));
-			//HttpSession ses = req.getSession(); // creates cookie!
-			//ses.setAttribute("username", balDTO);
-			// do we start session?
-			// this is totally wrongggg
-			pw.print("$" + accDao.findAccountBalance(balDTO.getAccountId()) + 
-					"has been withdrawn from Account #" + balDTO.getAccountId());
+		if (user.getRole().getRoleId() == 1 || userId == account.getUser().getUserId()) {
 
-			resp.setStatus(200);
-			
+			if (accService.withdraw(balDTO)) {
+				// pw.print(om.writeValueAsString(accService.getAccountBalance(balDTO.getAccountId())));
+				// HttpSession ses = req.getSession(); // creates cookie!
+				// ses.setAttribute("username", balDTO);
+				// do we start session?
+				pw.print("$" + balDTO.getAmount() + " has been withdrawn from Account #"
+						+ balDTO.getAccountId());
+				resp.setStatus(200);
+			}
+			//accDao.findAccountBalance(balDTO.getAccountId())
+			else {
+				pw.print("Cannot perform this action.");
+				resp.setStatus(400);
+			}
+
 		} else {
+			pw.print("Cannot perform this action.");
 			resp.setStatus(400);
 		}
 

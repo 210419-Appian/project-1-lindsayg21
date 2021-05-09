@@ -74,30 +74,26 @@ public class FrontControllerServlet extends HttpServlet {
 				if (sections.length == 2) {
 					int userId = Integer.parseInt(sections[1]);
 					uControl.getUserByUserId(req, resp, userId);
-					//should we have a req parameter?
+					// should we have a req parameter?
 				}
 				// this gives us all the user info; only admins and employees
-				//needs to be fixed. add in security(?)
+				// needs to be fixed. add in security(?)
 				else if (sections.length == 3 && sections[1].equals("owner")) {
 					String str = sections[2];
 					uControl.getUserByUsername(resp, str);
 				} else {
-					uControl.getAllUsers(req, resp); 
-					//getting all Users if no other specifications
+					uControl.getAllUsers(req, resp);
+					// getting all Users if no other specifications
 				}
 			}
 
 			else if (req.getMethod().equals("PUT") && sections.length == 2) {
 				int userId = Integer.parseInt(sections[1]);
 				uControl.putUser(req, resp, userId);
-				//updating a User
+				// updating a User
 			}
-			/*
-			 * else if (req.getMethod().equals("PATCH") && sections.length == 2) {
-			 * uControl.patchUser(req, resp); }
-			 */
-			
-			//need to check this; only Admin, Employee, and current session ID should work
+
+			// need to check this; only Admin, Employee, and current session ID should work
 			else if (req.getMethod().equals("DELETE") && sections.length == 2) {
 				uControl.deleteUser(resp, sections[1]);
 			}
@@ -108,44 +104,46 @@ public class FrontControllerServlet extends HttpServlet {
 				if (sections.length == 2) {
 					int accountId = Integer.parseInt(sections[1]);
 					accControl.getByAccountId(req, resp, accountId);
-					//should be req, resp, accountId
-//				} else if (sections[1].equals("owner") && sections.length == 3) {
-//					int userId = Integer.parseInt(sections[2]);
-//					accControl.getAccountByUserId(resp, userId);
-//					// get by user ID!!!
-//				} else if (sections[1].equals("status") && sections.length == 3) {
-//					int accStatId = Integer.parseInt(sections[2]);
-//					accControl.getAccountByStatusId(resp, accStatId);
-				} else {
+					// should be req, resp, accountId
+				} else if (sections.length == 3 && sections[1].equals("owner")) {
+					int userId = Integer.parseInt(sections[2]);
+					accControl.getAccountByUserId(req, resp, userId);
+					// get by user ID!!!
+				}
+				/* else if (sections[1].equals("status") && sections.length == 3) {
+					int accStatId = Integer.parseInt(sections[2]);
+					accControl.getAccountByStatusId(req, resp, accStatId);
+				 }*/
+				else {
 					accControl.getAllAccounts(req, resp);
 					// this should only be allowed for Admins and Employees
 				}
 			} else if (req.getMethod().equals("POST")) {
-				//accControl.addAccount(req, resp);
-				if(sections.length == 3 && sections[1].equals("withdraw")) {
-					int accountId = Integer.parseInt(sections[2]);
-					accControl.withdraw(req, resp, accountId);
+				// accControl.addAccount(req, resp);
+				if (sections.length == 3 && sections[1].equals("withdraw")) {
+					//int accountId = Integer.parseInt(sections[2]);
+					accControl.withdraw(req, resp);
 				}
 			} else if (req.getMethod().equals("PUT")) {
 				accControl.putAccount(req, resp);
-			 /*else if (req.getMethod().equals("PATCH") && sections.length == 4) {
-				int accountId = Integer.parseInt(sections[2]);
-				double amount = Double.parseDouble(sections[3]);
-				if (sections.length == 3) {
-					//accControl.withdrawFromAccount(req, resp, accountId, amount);
-				}*/
+				/*
+				 * else if (req.getMethod().equals("PATCH") && sections.length == 4) { int
+				 * accountId = Integer.parseInt(sections[2]); double amount =
+				 * Double.parseDouble(sections[3]); if (sections.length == 3) {
+				 * //accControl.withdrawFromAccount(req, resp, accountId, amount); }
+				 */
 			} else if (req.getMethod().equals("DELETE") && sections.length == 2) {
 				accControl.deleteAccount(resp, sections[1]);
 			}
 			break;
-		case "accounts/withdraw":
-			if (req.getMethod().equals("GET")) {
-				int accountId = Integer.parseInt(sections[2]);
-				double amount = Double.parseDouble(sections[3]);
-				if (sections.length == 3) {
-					//accControl.withdrawFromAccount(req, resp, accountId, amount);
-				}
-			}
+//		case "accounts/withdraw":
+//			if (req.getMethod().equals("GET")) {
+//				int accountId = Integer.parseInt(sections[2]);
+//				double amount = Double.parseDouble(sections[3]);
+//				if (sections.length == 3) {
+//					// accControl.withdrawFromAccount(req, resp, accountId, amount);
+//				}
+//			}
 
 		}// ends switch statement
 
@@ -170,12 +168,12 @@ public class FrontControllerServlet extends HttpServlet {
 	protected void doPatch(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		doGet(req, resp);
 	}
-	
+
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		if(req.getMethod().equals("PATCH")) {
+		if (req.getMethod().equals("PATCH")) {
 			doPatch(req, resp);
-		}else {
+		} else {
 			super.service(req, resp);
 		}
 	}
