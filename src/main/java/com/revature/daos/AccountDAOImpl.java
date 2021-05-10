@@ -87,18 +87,7 @@ public class AccountDAOImpl implements AccountDAO {
 				account.setType(atDao.findByAccountTypeId(accountType));
 				int accountUser = result.getInt("account_id");
 				account.setUser(uDao.findByUserId(accountUser));
-
-				// account.setStatus(asDao.findByAccountId(accountStatus));
-
-				// list.add(account);
-				// account.setType(atDao.findByAccountTypeId(accountType));
-
-				// list.add(account);
-				// account.setUser(uDao.findByUserId(accountUser));
-
-				// list.add(account);
-				// need return type of Account
-				// return account;
+				
 			}
 
 			return account;

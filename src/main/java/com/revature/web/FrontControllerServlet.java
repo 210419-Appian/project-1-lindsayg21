@@ -121,6 +121,9 @@ public class FrontControllerServlet extends HttpServlet {
 				else if(sections.length == 3 && sections[1].equals("deposit")) {
 					accControl.deposit(req, resp);
 				}
+				else if(sections.length == 3 && sections[1].equals("transfer")){
+					accControl.transfer(req, resp);
+				}
 			} else if (req.getMethod().equals("PUT")) {
 				accControl.putAccount(req, resp);
 				/*

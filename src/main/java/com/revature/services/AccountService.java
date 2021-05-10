@@ -3,6 +3,7 @@ package com.revature.services;
 import com.revature.models.AccountStatus;
 import com.revature.models.AccountType;
 import com.revature.models.BalanceDTO;
+import com.revature.models.TransferDTO;
 import com.revature.models.User;
 
 import java.util.List;
@@ -85,27 +86,46 @@ public class AccountService {
 	//public boolean transfer(TransferDTO transDTO)
 	//double
 	//
-	public boolean transferMoney(int accountIdToWithdraw, int accountIdToDeposit, double amount) {
+	public boolean transferMoney(TransferDTO transDTO) {
+		Account account1 = accDao.findByAccountId(transDTO.getAccountId1()); 	//account balance of acc 1
+		Account account2 = accDao.findByAccountId(transDTO.getAccountId2());	//account balance of acc 2
+		double amount = transDTO.getAmount(); 		// amount to withdraw from THIS account
+		double balance1 = account1.getBalance();	//balance of first account	
+		double balance2 = account2.getBalance();	//balance of second account
 
-		double balanceOfWithdrawAccount = accDao.findAccountBalance(accountIdToWithdraw);
+		if (amount <= balance1) {
 
-		double balanceOfDepositAccount = accDao.findAccountBalance(accountIdToDeposit);
-
-		if (amount <= balanceOfWithdrawAccount) {
-			balanceOfWithdrawAccount -= amount;
-			balanceOfDepositAccount += amount;
-			System.out.println(
-					"Account number " + accountIdToWithdraw + " now has a balance of $" + balanceOfWithdrawAccount);
-			System.out.println(
-					"Account number " + accountIdToDeposit + " now has a balance of $" + balanceOfDepositAccount);
+			account1.setBalance((balance1 - amount));
+			account2.setBalance((balance2 + amount));
+			accDao.updateAccount(account1);
+			accDao.updateAccount(account2);
+			// balance = account.getBalance();
+			//System.out.println("Your new account balance is $" + balance)
+			return true;
+			
 		} else {
-			System.out.println(
-					"Account number " + accountIdToWithdraw + " doesn't have enough funds to complete this transfer.");
 			return false;
 		}
-
-		return true;
 	}
+//		double balanceOfWithdrawAccount = accDao.findAccountBalance(accountIdToWithdraw);
+//
+//		double balanceOfDepositAccount = accDao.findAccountBalance(accountIdToDeposit);
+//
+//		if (amount <= balanceOfWithdrawAccount) {
+//			balanceOfWithdrawAccount -= amount;
+//			balanceOfDepositAccount += amount;
+//			System.out.println(
+//					"Account number " + accountIdToWithdraw + " now has a balance of $" + balanceOfWithdrawAccount);
+//			System.out.println(
+//					"Account number " + accountIdToDeposit + " now has a balance of $" + balanceOfDepositAccount);
+//		} else {
+//			System.out.println(
+//					"Account number " + accountIdToWithdraw + " doesn't have enough funds to complete this transfer.");
+//			return false;
+//		}
+//
+//		return true;
+	
 
 	// look here to finish addAccountAndUser() method
 	public boolean createAccount(Account account) {
@@ -119,14 +139,5 @@ public class AccountService {
 	public boolean updateAccount(Account account) {
 		return accDao.updateAccount(account);
 	}
-
-//
-//	public String transfer(int accountId, double firstAcct, double secondAcct, double amount) {
-//		// need accountId, account taking money from, account putting money into,
-//		// and the amount of the transaction
-//		firstAcct -= amount;
-//		secondAcct += amount;
-//		return "Your now have $" + secondAcct + " in your ";
-//	}
 
 }

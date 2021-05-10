@@ -14,6 +14,7 @@ import com.revature.daos.AccountDAOImpl;
 import com.revature.daos.UserDAOImpl;
 import com.revature.models.Account;
 import com.revature.models.BalanceDTO;
+import com.revature.models.TransferDTO;
 import com.revature.models.User;
 import com.revature.models.UserDTO;
 //import com.revature.models.User;
@@ -353,6 +354,67 @@ public class AccountController {
 
 	}
 
+	public void transfer(HttpServletRequest req, HttpServletResponse resp) throws IOException {	
+		
+		PrintWriter pw = resp.getWriter();
+
+		if (req.getSession(false) == null) {
+			pw.print("There is no one logged in.");
+			return;
+		}
+
+		HttpSession ses = req.getSession();
+		String str = (String) ses.getAttribute("username"); // reading from session cookie
+		User user = uDao.findByUsername(str);
+		int userId = user.getUserId();
+
+		TransferDTO transDTO = new TransferDTO();		//taking money from
+		//TransferDTO transDTO2 = new TransferDTO();		//putting money into
+		
+		Account account1 = accService.findByAccountId(transDTO.getAccountId1());
+		Account account2 = accService.findByAccountId(transDTO.getAccountId2());
+
+		BufferedReader reader = req.getReader();
+
+		StringBuilder sb = new StringBuilder();
+
+		String line = reader.readLine();
+
+		while (line != null) {
+			sb.append(line);
+			line = reader.readLine();
+		}
+
+		String body = new String(sb);
+		transDTO = om.readValue(body, TransferDTO.class);
+		
+		// sets the accountId and balance.
+
+		if (user.getRole().getRoleId() == 1 || userId == account1.getUser().getUserId()) { 
+		//first account must match the one logged into the session
+
+			if (accService.transferMoney(transDTO)) {
+				pw.print("$" + transDTO.getAmount() + " has been withdrawn from Account #"
+						+ transDTO.getAccountId1());
+				pw.print(". Your new balance is $" + accDao.findAccountBalance(transDTO.getAccountId1()));
+				System.out.println();
+				pw.print(" $" + transDTO.getAmount() + " has been deposited into Account #"
+						+ transDTO.getAccountId2());
+				resp.setStatus(200);
+			}
+			//accDao.findAccountBalance(balDTO.getAccountId())
+			else {
+				pw.print("Cannot perform this action.");
+				resp.setStatus(400);
+			}
+
+		} else {
+			pw.print("Cannot perform this action.");
+			resp.setStatus(400);
+		}
+		
+	}
+	
 	public void deleteAccount(HttpServletResponse resp, String deletion) throws IOException {
 		try {
 			int accountId = Integer.parseInt(deletion);
