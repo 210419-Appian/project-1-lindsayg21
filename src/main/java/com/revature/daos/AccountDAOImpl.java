@@ -43,14 +43,6 @@ public class AccountDAOImpl implements AccountDAO {
 				int accountUser = result.getInt("account_user");
 				account.setUser(uDao.findByUserId(accountUser));
 
-				/*
-				 * if(accountStatus != 0) {
-				 * account.setStatus(asDao.findByAccountId(accountStatus)); } list.add(account);
-				 * if(accountType != 0) {
-				 * account.setType(atDao.findByAccountTypeId(accountType)); } list.add(account);
-				 * if(accountUser != 0l) { account.setUser(uDao.findByUserId(accountUser)); }
-				 */
-
 				list.add(account);
 			}
 
@@ -63,7 +55,6 @@ public class AccountDAOImpl implements AccountDAO {
 	}
 
 	@Override
-	// done!
 	public Account findByAccountId(int accountId) {
 		try (Connection conn = ConnectionUtil.getConnection()) {
 
@@ -99,7 +90,6 @@ public class AccountDAOImpl implements AccountDAO {
 	}
 
 	@Override
-	// make a list???
 	public Account findByUserId(int userId) {
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			String sql = "SELECT * FROM account WHERE account_user = " + userId + ";";
@@ -210,7 +200,6 @@ public class AccountDAOImpl implements AccountDAO {
 	}
 
 	@Override
-	// not done
 	public boolean updateAccount(Account account) {
 		try(Connection conn = ConnectionUtil.getConnection()){
 			String sql = "UPDATE account "
@@ -237,7 +226,6 @@ public class AccountDAOImpl implements AccountDAO {
 	}
 
 	@Override
-	// not finished
 	public boolean updateAccountStatus(Account account) {
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			String sql = "UPDATE account"

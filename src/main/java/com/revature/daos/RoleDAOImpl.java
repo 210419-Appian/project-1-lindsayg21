@@ -50,15 +50,12 @@ public class RoleDAOImpl implements RoleDAO {
 			Statement statement = conn.createStatement();
 
 			ResultSet result = statement.executeQuery(sql);
-
-			//List<Role> list = new ArrayList<>();
 			
 			Role role = new Role();
 
 			while (result.next()) {
 				role.setRoleId(result.getInt("role_id"));
 				role.setRole(result.getString("role_title"));
-				//list.add(role);
 			}
 
 			return role;	

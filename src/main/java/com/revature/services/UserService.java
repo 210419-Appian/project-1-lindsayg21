@@ -31,10 +31,6 @@ public class UserService {
 	}
 	
 	public boolean createUser(User user) {
-		/*if(user.getRole() == null) {
-			return aDao.
-			do this after
-		}*/
 		return uDao.addUser(user);
 	}
 	
@@ -54,7 +50,6 @@ public class UserService {
 		
 		System.out.println(userReq.toString());
 		
-		//if (uDao.findByUsername(uDTO.getUsername()).getPassword() == uDTO.getPassword()) {
 		if((userReq.getPassword() != null) && (uDTO.getPassword().equals(userReq.getPassword()))) {
 			return true;
 		}

@@ -254,7 +254,6 @@ public class AccountController {
 		String body = new String(sb);
 		balDTO = om.readValue(body, BalanceDTO.class);
 		// sets the accountId and balance.
-		// || userId == account.getUser().getUserId()
 
 		if (user.getRole().getRoleId() == 1 || user.getUserId() == accService.findByUserId(userId).getUser().getUserId()) {
 

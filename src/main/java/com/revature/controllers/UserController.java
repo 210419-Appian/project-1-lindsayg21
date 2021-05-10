@@ -127,10 +127,6 @@ public class UserController {
 			pw.print("You have successfully logged out " + ses.getAttribute("username"));
 			ses.invalidate();
 			resp.setStatus(200);
-			// pw.print("You have successfully logged out " + ses.getAttribute("username"));
-			// session was already invalidated!!
-
-			// return;
 		}
 
 		else {
@@ -213,14 +209,6 @@ public class UserController {
 			resp.setStatus(200);
 			// set as 200 bc OK
 
-//		} else if (user.getRole().getRoleId() == 2) {
-//			User uServ = uService.findByUserId(userId);
-//
-//			String json = om.writeValueAsString(uServ);
-//			System.out.println(json);
-//			pw.print(json);
-//			resp.setStatus(200);
-//
 		} else if (user.getUserId() == userId) {
 			User uServ = uService.findByUserId(userId);
 
@@ -249,7 +237,6 @@ public class UserController {
 		HttpSession ses = req.getSession();
 		String str = (String) ses.getAttribute("username"); // reading from session cookie
 		User user = uDao.findByUsername(str);
-		// could also find by ID?
 
 		BufferedReader reader = req.getReader();
 
@@ -283,20 +270,6 @@ public class UserController {
 		}
 			// set as 200 bc OK
 			
-//			
-//			if (uService.updateUser(user1)) {
-//				resp.setStatus(200);
-//			} else {
-//				resp.setStatus(400);
-//			}
-//			User uServ = uService.findByUserId(userId);
-//
-//			String json = om.writeValueAsString(uServ);
-//			System.out.println(json);
-//			pw.print(json);
-//			resp.setStatus(200);
-//
-//		} 
 		else if (user.getUserId() == userId) {
 			
 			if (uService.updateUser(user1)) {
