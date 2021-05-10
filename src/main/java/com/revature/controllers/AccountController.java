@@ -237,7 +237,7 @@ public class AccountController {
 		int userId = user.getUserId();
 
 		BalanceDTO balDTO = new BalanceDTO();
-		Account account = accService.findByAccountId(balDTO.getAccountId()); //sets
+		Account account = accService.findByAccountId(balDTO.getAccountId()); // sets
 		// account from balDTO
 
 		BufferedReader reader = req.getReader();
@@ -254,18 +254,20 @@ public class AccountController {
 		String body = new String(sb);
 		balDTO = om.readValue(body, BalanceDTO.class);
 		// sets the accountId and balance.
-		//
-		if (user.getRole().getRoleId() == 1 || userId == account.getUser().getUserId()) {
+		// || userId == account.getUser().getUserId()
+
+		if (user.getRole().getRoleId() == 1 || user.getUserId() == accService.findByUserId(userId).getUser().getUserId()) {
 
 			if (accService.withdraw(balDTO)) {
-				pw.print("\"message\": $" + balDTO.getAmount() + " has been withdrawn from Account #" + balDTO.getAccountId());
+				pw.print("\"message\": $" + balDTO.getAmount() + " has been withdrawn from Account #"
+						+ balDTO.getAccountId());
 				pw.print(". Your new balance is $" + accDao.findAccountBalance(balDTO.getAccountId()));
 				resp.setStatus(200);
 			} else {
 				pw.print("Cannot perform this action.");
 				resp.setStatus(400);
 			}
-		} 
+		}
 
 		else {
 			pw.print("Cannot perform this action.");
@@ -308,7 +310,8 @@ public class AccountController {
 		if (user.getRole().getRoleId() == 1 || userId == account.getUser().getUserId()) {
 
 			if (accService.deposit(balDTO)) {
-				pw.print("\"message\": $" + balDTO.getAmount() + " has been desposited to Account #" + balDTO.getAccountId());
+				pw.print("\"message\": $" + balDTO.getAmount() + " has been desposited to Account #"
+						+ balDTO.getAccountId());
 				pw.print(". Your new balance is $" + accDao.findAccountBalance(balDTO.getAccountId()));
 				resp.setStatus(200);
 			} else {
@@ -363,7 +366,8 @@ public class AccountController {
 			// first account must match the one logged into the session
 
 			if (accService.transferMoney(transDTO)) {
-				pw.print("\"message\": $" + transDTO.getAmount() + " has been withdrawn from Account #" + transDTO.getAccountId1());
+				pw.print("\"message\": $" + transDTO.getAmount() + " has been withdrawn from Account #"
+						+ transDTO.getAccountId1());
 				pw.print(". Your new balance is $" + accDao.findAccountBalance(transDTO.getAccountId1()));
 				System.out.println();
 				pw.print(" $" + transDTO.getAmount() + " has been deposited into Account #" + transDTO.getAccountId2());
