@@ -7,9 +7,6 @@ import com.revature.models.AccountType;
 
 public class Account implements Serializable{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private int accountId; // primary key

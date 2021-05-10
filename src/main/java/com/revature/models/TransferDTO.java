@@ -8,7 +8,6 @@ public class TransferDTO {
 	
 	public TransferDTO() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public int getAccountId1() {

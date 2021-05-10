@@ -13,10 +13,6 @@ import com.revature.models.User;
 import com.revature.models.UserDTO;
 
 public class UserService {
-
-	//need to compare passwords	
-	//be able to create a new user as well 
-	//reference demo!!!
 	
 	private UserDAO uDao = new UserDAOImpl();
 	private UserDTO userDTO = new UserDTO();
@@ -46,43 +42,6 @@ public class UserService {
 		uDao.updateUser(user);
 		return uDao.updateUser(user);
 	}
-	
-	/*public boolean updatePartialUser(User user) {
-		
-		if(user.getUserId() == 0) {
-			return false;
-			//need userId to update a user
-		}
-		
-		User userInfo = findByUserId(user.getUserId());
-		//we have their user id
-		
-		if(user.getUsername() == null) {
-			user.setUsername(userInfo.getUsername());
-		}
-		
-		if(user.getPassword() == null) {
-			user.setPassword(userInfo.getPassword());
-		}
-		
-		if(user.getFirstName() == null) {
-			user.setFirstName(userInfo.getFirstName());
-		}
-
-		if(user.getLastName() == null) {
-			user.setLastName(userInfo.getLastName());
-		}
-		
-		if(user.getEmail() == null) {
-			user.setEmail(userInfo.getEmail());
-		}
-		if(user.getRole() == null) {
-			user.setRole(userInfo.getRole());
-		}
-		
-		return uDao.updateUser(user);
-		//need to figure out what's changing and what isn't
-	}*/
 	
 	public boolean removeUser(int userId) {
 		uDao.deleteUser(userId);

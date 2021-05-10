@@ -3,12 +3,7 @@ package com.revature.models;
 import java.io.Serializable;
 
 public class User implements Serializable {
-	// keeps track of user information
-	// so do we prompt for all of this???
-
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	
 	private int userId; // primary key, used in our database
@@ -24,10 +19,8 @@ public class User implements Serializable {
 		this.userId = userId;
 		this.username = username;
 		this.password = password;
-
 	}
 
-	//no ID in case making a new object, Serial will set ID number!
 	public User(String username, String password, String firstName, String lastName, String email, Role role) {
 		super();
 		this.username = username;

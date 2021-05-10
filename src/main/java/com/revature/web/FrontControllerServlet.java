@@ -16,7 +16,6 @@ import com.revature.models.UserDTO;
 public class FrontControllerServlet extends HttpServlet {
 
 	private String BaseURL = null;
-	private RoleController rControl = new RoleController();
 	private UserController uControl = new UserController();
 	private AccountController accControl = new AccountController();
 	private UserDTO uDTo = new UserDTO();
@@ -34,8 +33,7 @@ public class FrontControllerServlet extends HttpServlet {
 
 		final String URL = req.getRequestURI().replace(BaseURL, "");
 		// find out where request wants to go
-		// we're dealing with a smaller String; get rid of what's in common
-
+		
 		System.out.println(URL);
 
 		String[] sections = URL.split("/");
@@ -55,16 +53,6 @@ public class FrontControllerServlet extends HttpServlet {
 				UserController.logout(req, resp);
 			}
 			break;
-		case "roles":
-			if (req.getMethod().equals("GET")) {
-				if (sections.length == 2) {
-					int roleId = Integer.parseInt(sections[1]);
-					rControl.getRoleByRoleId(resp, roleId);
-				} else {
-					rControl.getAllRoles(resp);
-				}
-			}
-			break;
 		case "register":
 			if (req.getMethod().equals("POST")) {
 				UserController.register(req, resp);
@@ -82,14 +70,10 @@ public class FrontControllerServlet extends HttpServlet {
 					uControl.getAllUsers(req, resp);
 				}
 			}
-
 			else if (req.getMethod().equals("PUT") && sections.length == 2) {
 				int userId = Integer.parseInt(sections[1]);
 				uControl.putUser(req, resp, userId);
-				// updating a User
 			}
-
-			// need to check this; only Admin, Employee, and current session ID should work
 			else if (req.getMethod().equals("DELETE") && sections.length == 2) {
 				uControl.deleteUser(req, resp, sections[1]);
 			}
@@ -111,11 +95,13 @@ public class FrontControllerServlet extends HttpServlet {
 					accControl.getAccountByStatusId(req, resp, accStatId);
 				 }
 				else {
-					accControl.getAllAccounts(req, resp);
-					// this should only be allowed for Admins and Employees
+					accControl.getAllAccounts(req, resp); 	//only allowed for admins and employees
 				}
 			} else if (req.getMethod().equals("POST")) {
-				if (sections.length == 3 && sections[1].equals("withdraw")) {
+				if (sections.length == 2) {
+					accControl.submit(req, resp);
+				}
+				else if(sections.length == 3 && sections[1].equals("withdraw")) {
 					accControl.withdraw(req, resp);
 				}
 				else if(sections.length == 3 && sections[1].equals("deposit")) {
@@ -126,18 +112,12 @@ public class FrontControllerServlet extends HttpServlet {
 				}
 			} else if (req.getMethod().equals("PUT")) {
 				accControl.putAccount(req, resp);
-				/*
-				 * else if (req.getMethod().equals("PATCH") && sections.length == 4) { int
-				 * accountId = Integer.parseInt(sections[2]); double amount =
-				 * Double.parseDouble(sections[3]); if (sections.length == 3) {
-				 * //accControl.withdrawFromAccount(req, resp, accountId, amount); }
-				 */
 			} else if (req.getMethod().equals("DELETE") && sections.length == 2) {
 				accControl.deleteAccount(resp, sections[1]);
 			}
 			break;
 
-		}// ends switch statement
+		}
 
 	}
 

@@ -36,10 +36,6 @@ public class AccountService {
 		return accDao.findByUserId(userId);
 	}
 
-	public Account findOneUser(int userId) {
-		return accDao.findByUserId(userId);
-	}
-
 	public double getAccountBalance(int accountId) {
 		return accDao.findAccountBalance(accountId);
 	}
@@ -48,7 +44,6 @@ public class AccountService {
 		return accDao.updateAccountStatus(account);
 	}
 
-	
 	public boolean withdraw(BalanceDTO balDTO) {
 		Account account = accDao.findByAccountId(balDTO.getAccountId()); // account balance
 		double amount = balDTO.getAmount(); // amount to withdraw
@@ -83,9 +78,6 @@ public class AccountService {
 
 	}
 	
-	//public boolean transfer(TransferDTO transDTO)
-	//double
-	//
 	public boolean transferMoney(TransferDTO transDTO) {
 		Account account1 = accDao.findByAccountId(transDTO.getAccountId1()); 	//account balance of acc 1
 		Account account2 = accDao.findByAccountId(transDTO.getAccountId2());	//account balance of acc 2
@@ -99,35 +91,14 @@ public class AccountService {
 			account2.setBalance((balance2 + amount));
 			accDao.updateAccount(account1);
 			accDao.updateAccount(account2);
-			// balance = account.getBalance();
-			//System.out.println("Your new account balance is $" + balance)
+			
 			return true;
 			
 		} else {
 			return false;
 		}
 	}
-//		double balanceOfWithdrawAccount = accDao.findAccountBalance(accountIdToWithdraw);
-//
-//		double balanceOfDepositAccount = accDao.findAccountBalance(accountIdToDeposit);
-//
-//		if (amount <= balanceOfWithdrawAccount) {
-//			balanceOfWithdrawAccount -= amount;
-//			balanceOfDepositAccount += amount;
-//			System.out.println(
-//					"Account number " + accountIdToWithdraw + " now has a balance of $" + balanceOfWithdrawAccount);
-//			System.out.println(
-//					"Account number " + accountIdToDeposit + " now has a balance of $" + balanceOfDepositAccount);
-//		} else {
-//			System.out.println(
-//					"Account number " + accountIdToWithdraw + " doesn't have enough funds to complete this transfer.");
-//			return false;
-//		}
-//
-//		return true;
 	
-
-	// look here to finish addAccountAndUser() method
 	public boolean createAccount(Account account) {
 		return accDao.addAccount(account);
 	}

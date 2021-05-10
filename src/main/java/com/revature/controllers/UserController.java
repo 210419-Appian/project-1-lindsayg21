@@ -18,7 +18,6 @@ import com.revature.models.UserDTO;
 import com.revature.services.UserService;
 
 public class UserController {
-//not a servlet
 
 	private static UserService uService = new UserService();
 	private static UserDAOImpl uDao = new UserDAOImpl();
@@ -49,7 +48,6 @@ public class UserController {
 		PrintWriter pw = resp.getWriter();
 		// stuff that will get sent back to client
 
-		// next the userDTO should be passed to the service layer to check if the
 		if (uService.checkLoginCredentials(uDTO)) {
 
 			pw.print(om.writeValueAsString(uDao.findByUsername(uDTO.getUsername())));
@@ -81,7 +79,7 @@ public class UserController {
 
 		String str = (String) ses.getAttribute("username"); // reading from session cookie
 		User user = uDao.findByUsername(str);
-		// rDao = new RoleDAOImpl();
+		
 
 		if (user.getRole().getRoleId() == 1) {
 			BufferedReader reader = req.getReader();
@@ -173,7 +171,7 @@ public class UserController {
 			pw.print(json);
 			resp.setStatus(200);
 		} else {
-			pw.print("Unauthorized Request.");
+			pw.print("\"message\": Unauthorized Request.");
 			resp.setStatus(400);
 		}
 	}
@@ -232,43 +230,11 @@ public class UserController {
 			resp.setStatus(200);
 
 		} else {
-			pw.print("Unauthorized Request.");
+			pw.print("\"message\": Unauthorized Request.");
 			resp.setStatus(400);
 		}
-
-		// User user = uService.findByUserId(userId);
-
-//		String json = om.writeValueAsString(user);
-//		System.out.println(json);
-//		PrintWriter pw = resp.getWriter();
-//		pw.print(json);
-//		resp.setStatus(200);
+		
 	}
-
-	// NEED to finish this one!
-	// needs to go into UserService class
-	/*
-	 * public void addUser(HttpServletRequest req, HttpServletResponse resp) throws
-	 * IOException {
-	 * 
-	 * BufferedReader reader = req.getReader();
-	 * 
-	 * StringBuilder sb = new StringBuilder();
-	 * 
-	 * String line = reader.readLine();
-	 * 
-	 * while (line != null) { sb.append(line); line = reader.readLine(); }
-	 * 
-	 * String body = new String(sb);
-	 * 
-	 * User user = om.readValue(body, User.class); // User object coming out of our
-	 * request
-	 * 
-	 * if (uService.createUser(user)) { resp.setStatus(201); // User created! } else
-	 * { resp.setStatus(406); // maybe 400! }
-	 * 
-	 * }
-	 */
 
 	public void putUser(HttpServletRequest req, HttpServletResponse resp, int userId) throws IOException {
 
@@ -301,7 +267,7 @@ public class UserController {
 
 		// if Admin, do this.
 		if (user.getRole().getRoleId() == 1 || user.getRole().getRoleId() == 2) {
-			/****************************************************/
+			
 			if (uService.updateUser(user1)) {
 				resp.setStatus(200);
 			} else {
@@ -316,8 +282,7 @@ public class UserController {
 			resp.setStatus(200);
 		}
 			// set as 200 bc OK
-			/****************************************************/
-//		} else if (user.getRole().getRoleId() == 2) {
+			
 //			
 //			if (uService.updateUser(user1)) {
 //				resp.setStatus(200);
@@ -331,7 +296,7 @@ public class UserController {
 //			pw.print(json);
 //			resp.setStatus(200);
 //
-//		} /****************************************************/
+//		} 
 		else if (user.getUserId() == userId) {
 			
 			if (uService.updateUser(user1)) {
@@ -351,47 +316,7 @@ public class UserController {
 			resp.setStatus(400);
 		}
 
-//		BufferedReader reader = req.getReader();
-//
-//		StringBuilder sb = new StringBuilder();
-//
-//		String line = reader.readLine();
-//
-//		while (line != null) {
-//			sb.append(line);
-//			line = reader.readLine();
-//		}
-//
-//		String body = new String(sb);
-//
-//		User user = om.readValue(body, User.class);
-//
-//		if (uService.updateUser(user)) {
-//			resp.setStatus(200);
-//		} else {
-//			resp.setStatus(400);
-//		}
 	}
-
-	/*
-	 * public void patchUser(HttpServletRequest req, HttpServletResponse resp)
-	 * throws IOException {
-	 * 
-	 * BufferedReader reader = req.getReader();
-	 * 
-	 * StringBuilder sb = new StringBuilder();
-	 * 
-	 * String line = reader.readLine();
-	 * 
-	 * while (line != null) { sb.append(line); line = reader.readLine(); }
-	 * 
-	 * String body = new String(sb);
-	 * 
-	 * User user = om.readValue(body, User.class);
-	 * 
-	 * if (uService.updatePartialUser(user)) { resp.setStatus(200); } else {
-	 * System.out.println("Invalid fields"); resp.setStatus(400); } }
-	 */
 
 	public void deleteUser(HttpServletRequest req, HttpServletResponse resp, String deletion) throws IOException {
 		
