@@ -205,7 +205,7 @@ public class UserController {
 		String str = (String) ses.getAttribute("username"); // reading from session cookie
 		User user = uDao.findByUsername(str);
 
-		if (user.getRole().getRoleId() == 1) {
+		if (user.getRole().getRoleId() == 1 || user.getRole().getRoleId() == 2) {
 
 			User uServ = uService.findByUserId(userId);
 
@@ -215,14 +215,14 @@ public class UserController {
 			resp.setStatus(200);
 			// set as 200 bc OK
 
-		} else if (user.getRole().getRoleId() == 2) {
-			User uServ = uService.findByUserId(userId);
-
-			String json = om.writeValueAsString(uServ);
-			System.out.println(json);
-			pw.print(json);
-			resp.setStatus(200);
-
+//		} else if (user.getRole().getRoleId() == 2) {
+//			User uServ = uService.findByUserId(userId);
+//
+//			String json = om.writeValueAsString(uServ);
+//			System.out.println(json);
+//			pw.print(json);
+//			resp.setStatus(200);
+//
 		} else if (user.getUserId() == userId) {
 			User uServ = uService.findByUserId(userId);
 
@@ -300,7 +300,7 @@ public class UserController {
 		User user1 = om.readValue(body, User.class);
 
 		// if Admin, do this.
-		if (user.getRole().getRoleId() == 1) {
+		if (user.getRole().getRoleId() == 1 || user.getRole().getRoleId() == 2) {
 			/****************************************************/
 			if (uService.updateUser(user1)) {
 				resp.setStatus(200);
@@ -314,23 +314,24 @@ public class UserController {
 			System.out.println(json);
 			pw.print(json);
 			resp.setStatus(200);
+		}
 			// set as 200 bc OK
 			/****************************************************/
-		} else if (user.getRole().getRoleId() == 2) {
-			
-			if (uService.updateUser(user1)) {
-				resp.setStatus(200);
-			} else {
-				resp.setStatus(400);
-			}
-			User uServ = uService.findByUserId(userId);
-
-			String json = om.writeValueAsString(uServ);
-			System.out.println(json);
-			pw.print(json);
-			resp.setStatus(200);
-
-		} /****************************************************/
+//		} else if (user.getRole().getRoleId() == 2) {
+//			
+//			if (uService.updateUser(user1)) {
+//				resp.setStatus(200);
+//			} else {
+//				resp.setStatus(400);
+//			}
+//			User uServ = uService.findByUserId(userId);
+//
+//			String json = om.writeValueAsString(uServ);
+//			System.out.println(json);
+//			pw.print(json);
+//			resp.setStatus(200);
+//
+//		} /****************************************************/
 		else if (user.getUserId() == userId) {
 			
 			if (uService.updateUser(user1)) {
@@ -392,7 +393,15 @@ public class UserController {
 	 * System.out.println("Invalid fields"); resp.setStatus(400); } }
 	 */
 
-	public void deleteUser(HttpServletResponse resp, String deletion) throws IOException {
+	public void deleteUser(HttpServletRequest req, HttpServletResponse resp, String deletion) throws IOException {
+		
+		PrintWriter pw = resp.getWriter();
+		
+		if (req.getSession(false) == null) {
+			pw.print("There is no one logged in.");
+			return;
+		}
+		
 		try {
 			int userId = Integer.parseInt(deletion);
 			if (uService.removeUser(userId)) {

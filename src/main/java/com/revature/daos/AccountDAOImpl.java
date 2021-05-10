@@ -186,10 +186,9 @@ public class AccountDAOImpl implements AccountDAO {
 			ResultSet result = statement.executeQuery(sql);
 
 			result.next();
-			// result.next();
-			double accountBalance = result.getDouble("account_balance");
-			// here: getting result from DB, from "account_balance", turning into a double.
 
+			double accountBalance = result.getDouble("account_balance");
+			
 			return accountBalance;
 
 		} catch (SQLException e) {

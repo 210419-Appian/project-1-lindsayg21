@@ -43,14 +43,10 @@ public class UserService {
 	}
 	
 	public boolean updateUser(User user) {
-		//need to be able to change name, email... everything.
-		//reference his update avenger from hellofrontcontroller
+		uDao.updateUser(user);
 		return uDao.updateUser(user);
 	}
 	
-	
-	//makes sense, but maybe don't let people change first name/last name?
-	//actually, can change these. 
 	/*public boolean updatePartialUser(User user) {
 		
 		if(user.getUserId() == 0) {
@@ -89,6 +85,7 @@ public class UserService {
 	}*/
 	
 	public boolean removeUser(int userId) {
+		uDao.deleteUser(userId);
 		return uDao.deleteUser(userId);
 	}
 	

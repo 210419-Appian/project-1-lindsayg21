@@ -163,8 +163,7 @@ public class AccountController {
 		}
 	}
 
-	public void getAccountByStatusId(HttpServletRequest req, HttpServletResponse resp, int acctStatId)
-			throws IOException {
+	public void getAccountByStatusId(HttpServletRequest req, HttpServletResponse resp, int acctStatId) throws IOException {
 		// findByAccStatusId returns an Account, so that's good
 
 		PrintWriter pw = resp.getWriter();
@@ -263,12 +262,8 @@ public class AccountController {
 		User user = uDao.findByUsername(str);
 		int userId = user.getUserId();
 
-		// AccountService accServ = new AccountService();
-		// AccountDAOImpl aDao = new AccountDAOImpl();
 		BalanceDTO balDTO = new BalanceDTO();
 		Account account = accService.findByAccountId(balDTO.getAccountId());
-		// UserService uService = new UserService();
-		// UserDAOImpl uDao = new UserDAOImpl();
 
 		BufferedReader reader = req.getReader();
 
@@ -288,12 +283,9 @@ public class AccountController {
 		if (user.getRole().getRoleId() == 1 || userId == account.getUser().getUserId()) {
 
 			if (accService.withdraw(balDTO)) {
-				// pw.print(om.writeValueAsString(accService.getAccountBalance(balDTO.getAccountId())));
-				// HttpSession ses = req.getSession(); // creates cookie!
-				// ses.setAttribute("username", balDTO);
-				// do we start session?
 				pw.print("$" + balDTO.getAmount() + " has been withdrawn from Account #"
 						+ balDTO.getAccountId());
+				pw.print(". Your new balance is $" + accDao.findAccountBalance(balDTO.getAccountId()));
 				resp.setStatus(200);
 			}
 			//accDao.findAccountBalance(balDTO.getAccountId())
@@ -308,16 +300,58 @@ public class AccountController {
 		}
 
 	}
+	
+	public void deposit(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-	/*
-	 * public void withdrawFromAccount(HttpServletRequest req, HttpServletResponse
-	 * resp, int accountId, double amount) throws IOException{
-	 * 
-	 * if(accService.withdraw(accountId, amount)) { resp.setStatus(202); //success }
-	 * else { resp.setStatus(400); }
-	 * 
-	 * }
-	 */
+		PrintWriter pw = resp.getWriter();
+
+		if (req.getSession(false) == null) {
+			pw.print("There is no one logged in.");
+			return;
+		}
+
+		HttpSession ses = req.getSession();
+		String str = (String) ses.getAttribute("username"); // reading from session cookie
+		User user = uDao.findByUsername(str);
+		int userId = user.getUserId();
+
+		BalanceDTO balDTO = new BalanceDTO();
+		Account account = accService.findByAccountId(balDTO.getAccountId());
+		
+		BufferedReader reader = req.getReader();
+
+		StringBuilder sb = new StringBuilder();
+
+		String line = reader.readLine();
+
+		while (line != null) {
+			sb.append(line);
+			line = reader.readLine();
+		}
+
+		String body = new String(sb);
+		balDTO = om.readValue(body, BalanceDTO.class);
+
+		if (user.getRole().getRoleId() == 1 || userId == account.getUser().getUserId()) {
+
+			if (accService.deposit(balDTO)) {
+				pw.print("$" + balDTO.getAmount() + " has been desposited to Account #"
+						+ balDTO.getAccountId());
+				pw.print(". Your new balance is $" + accDao.findAccountBalance(balDTO.getAccountId()));
+				resp.setStatus(200);
+			}
+			//accDao.findAccountBalance(balDTO.getAccountId())
+			else {
+				pw.print("Cannot perform this action.");
+				resp.setStatus(400);
+			}
+
+		} else {
+			pw.print("Cannot perform this action.");
+			resp.setStatus(400);
+		}
+
+	}
 
 	public void deleteAccount(HttpServletResponse resp, String deletion) throws IOException {
 		try {

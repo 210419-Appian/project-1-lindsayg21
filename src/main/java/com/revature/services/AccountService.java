@@ -47,53 +47,44 @@ public class AccountService {
 		return accDao.updateAccountStatus(account);
 	}
 
-	// need: account id, amount to withdraw
-	// public boolean withdraw(int accountId, double amount) {
+	
 	public boolean withdraw(BalanceDTO balDTO) {
-
-		// Account accReq = accDao.findAccountBalance(balDTO.getAccountId());
-
-//		int accountId = balDTO.getAccountId();
-//		double amount = balDTO.getAmount(); //amount to take out
-//		double balance = accDao.findAccountBalance(balDTO.getAccountId());
-//		//gets account balance
-//		
-//		if (amount <= balance) {
-//			balDTO.setAmount(balance - amount); //sets 
-//			return balDTO.getAmount();
-//		} else {
-//			return 0.0;
-//		}
-		Account account = accDao.findByAccountId(balDTO.getAccountId()); //account balance
-		double amount = balDTO.getAmount(); //amount to withdraw
+		Account account = accDao.findByAccountId(balDTO.getAccountId()); // account balance
+		double amount = balDTO.getAmount(); // amount to withdraw
 		double balance = account.getBalance();
 
 		if (amount <= balance) {
-			
+
 			account.setBalance((balance - amount));
 			accDao.updateAccount(account);
-			//balance = account.getBalance();
+			// balance = account.getBalance();
 			System.out.println("Your new account balance is $" + balance);
-			
+
 			return true;
-		}
-		else{
+		} else {
 			return false;
 		}
 
 	}
 
-	public double deposit(int accountId, double amount) {
+	public boolean deposit(BalanceDTO balDTO) {
 
-		double balance = accDao.findAccountBalance(accountId);
+		Account account = accDao.findByAccountId(balDTO.getAccountId()); // account balance
+		double amount = balDTO.getAmount(); // amount to withdraw
+		double balance = account.getBalance();
 
-		balance += amount;
-
+		account.setBalance((balance + amount));
+		accDao.updateAccount(account);
+		// balance = account.getBalance();
 		System.out.println("Your new account balance is $" + balance);
 
-		return balance;
-	}
+		return true;
 
+	}
+	
+	//public boolean transfer(TransferDTO transDTO)
+	//double
+	//
 	public boolean transferMoney(int accountIdToWithdraw, int accountIdToDeposit, double amount) {
 
 		double balanceOfWithdrawAccount = accDao.findAccountBalance(accountIdToWithdraw);
@@ -128,24 +119,7 @@ public class AccountService {
 	public boolean updateAccount(Account account) {
 		return accDao.updateAccount(account);
 	}
-	// URL: /accounts/withdraw
-//	public String withdraw(int accountId, double amount, AccountType type) {
-//		// have to call database here
-//		// we need accountId, amount, and account withdrawing from
-//		System.out.println("account id: ");
-//		System.out.println("amount: ");
-//		balance -= amount;
-//		return "Your new balance is: $" + balance;
-//	}
-//
-//	// URL: /account/deposit
-//	public String deposit(int accountId, double amount, AccountType type) {
-//		// we need accountId, amount, and account depositing into
-//		System.out.println("account id:"); // do something with URI
-//		System.out.println("amount: "); // do something with URI
-//		balance += amount;
-//		return "Your new balance is: $" + balance;
-//	}
+
 //
 //	public String transfer(int accountId, double firstAcct, double secondAcct, double amount) {
 //		// need accountId, account taking money from, account putting money into,
