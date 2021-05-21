@@ -1,18 +1,18 @@
 ### **Project Description**
-* This Banking API will manage the bank accounts of its users . The Bank has three types of users: Admins, Employees, and Standard users. Admins and Employees count as Standard users with additional abilities. All users are able to log in and out using their username and password. All users are able to update their personal information, such as username, password, first name, last name, and email. Standard users are only able to see their accounts. Employees are able to view customer information, but not modify it in any way. Admins can view information as well as modify it. 
+This Banking API will manage the bank accounts of its users . The Bank has three types of users: Admins, Employees, and Standard users. Admins and Employees count as Standard users with additional abilities. All users are able to log in and out using their username and password. All users are able to update their personal information, such as username, password, first name, last name, and email. Standard users are only able to see their accounts. Employees are able to view customer information, but not modify it in any way. Admins can view information as well as modify it. 
 
 ### **Features**
-•Admins can successfully withdraw, deposit, and transfer funds; Employees are not able to do this as it is not in their role's range.
-•Standard users can view their account information, but not anyone else's.
-•Employees can view all users and accounts, but not make any changes.
-* **When** users succesfully log in or out, personalized messages are displayed for them.
-•Admins and Employees can search for an account by account id, user id, and status id. 
+* **Admins can successfully withdraw, deposit, and transfer funds; Employees are not able to do this as it is not in their role's range.**
+* **Standard users can view their account information, but not anyone else's.**
+* **Employees can view all users and accounts, but not make any changes.**
+* **When  users succesfully log in or out, personalized messages are displayed for them.**
+* **Admins and Employees can search for an account by account id, user id, and status id.** 
 
 ### **To-do List:**
-•Create ability for users to withdraw, deposit, and transfer from their own account.
-•Allow Admins to add accounts to already existing users.
-•Be able to create a user and a corresponding account at the same time.
-•Allow Admins to delete users and their corresponding accounts. 
+* **Create ability for users to withdraw, deposit, and transfer from their own account.**
+* **Allow Admins to add accounts to already existing users.**
+* **Be able to create a user and a corresponding account at the same time.**
+* **Allow Admins to delete users and their corresponding accounts.** 
 
 ### **Getting Started**
 
