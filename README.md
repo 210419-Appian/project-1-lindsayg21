@@ -5,7 +5,7 @@
 •Admins can successfully withdraw, deposit, and transfer funds; Employees are not able to do this as it is not in their role's range.
 •Standard users can view their account information, but not anyone else's.
 •Employees can view all users and accounts, but not make any changes.
-•When users succesfully log in or out, personalized messages are displayed for them.
+* **When** users succesfully log in or out, personalized messages are displayed for them.
 •Admins and Employees can search for an account by account id, user id, and status id. 
 
 ### **To-do List:**
