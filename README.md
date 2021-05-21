@@ -47,7 +47,7 @@ When inputing data into the parameters, select the Body option, raw, and JSON as
 	```
 
 * **Error Response:**
-  * **Status Code:** `400 BAD REQUEST`
+  * **Status Code:** `400 BAD REQUEST`t
   	```json
   {
     "message": "Invalid Credentials"
@@ -89,12 +89,13 @@ When inputing data into the parameters, select the Body option, raw, and JSON as
  User
 
 * **Error Response:**
-  * **Status Code:** 400 BAD REQUEST
-
+  Note: In case username or email is already used
+  * **Status Code:** `400 BAD REQUEST`
+  ```json
   {
     "message": "Invalid fields"
-  }  
-  
+  }
+  ```
 ####Withdraw####
 * **URL:** `/accounts/withdraw/{accountId}`
 
