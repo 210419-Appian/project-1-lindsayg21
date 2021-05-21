@@ -53,7 +53,6 @@ public class AccountService {
 
 			account.setBalance((balance - amount));
 			accDao.updateAccount(account);
-			// balance = account.getBalance();
 			System.out.println("Your new account balance is $" + balance);
 
 			return true;
@@ -71,7 +70,6 @@ public class AccountService {
 
 		account.setBalance((balance + amount));
 		accDao.updateAccount(account);
-		// balance = account.getBalance();
 		System.out.println("Your new account balance is $" + balance);
 
 		return true;

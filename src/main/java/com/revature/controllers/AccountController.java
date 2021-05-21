@@ -340,7 +340,6 @@ public class AccountController {
 		int userId = user.getUserId();
 
 		TransferDTO transDTO = new TransferDTO(); // taking money from
-		// TransferDTO transDTO2 = new TransferDTO(); //putting money into
 
 		Account account1 = accService.findByAccountId(transDTO.getAccountId1());
 		Account account2 = accService.findByAccountId(transDTO.getAccountId2());
@@ -373,7 +372,6 @@ public class AccountController {
 				pw.print(". Your new balance is $" + accDao.findAccountBalance(transDTO.getAccountId2()));
 				resp.setStatus(200);
 			}
-			// accDao.findAccountBalance(balDTO.getAccountId())
 			else {
 				pw.print("Cannot perform this action.");
 				resp.setStatus(400);
