@@ -42,48 +42,49 @@ When inputing data into the parameters, select the Body option, raw, and JSON as
 	```
 
 * **Response:**
-  
+	```json
   User
+	```
 
 * **Error Response:**
-  * **Status Code:** 400 BAD REQUEST
-
+  * **Status Code:** `400 BAD REQUEST`
+  	```json
   {
     "message": "Invalid Credentials"
   }
-  
+	```
 ####Logout####
 
-* **URL:** /logout
+* **URL:** `/logout`
 
-* **Method:** POST
+* **Method:** `POST`
 
 * **Response:**
-  
+	```json
   {
     "message": "You have successfully logged out {username}"
   }
-
+	```
 * **Error Response:**
-  * **Status Code:** 400 BAD REQUEST
-
+  * **Status Code:** `400 BAD REQUEST`
+	```json
   {
     "message": "There was no user logged into the session"
   }
-  
+	``` 
 ####Register####
 
-* **URL:** /logout
+* **URL:** `/register`
 
-* **Method:** POST
-* **Allowed Roles:** Admin
+* **Method:** `POST`
+* **Allowed Roles:** `Admin`
 
 * **Request:** (note: all fields must be included and user Id field should not be there as it will be automatically generated).
   
   User
   
 * **Response:** 
- * **Status Code:** 201 CREATED
+ * **Status Code:** `201 CREATED`
  
  User
 
@@ -95,69 +96,79 @@ When inputing data into the parameters, select the Body option, raw, and JSON as
   }  
   
 ####Withdraw####
-* **URL:** /accounts/withdraw/{accountId}
+* **URL:** `/accounts/withdraw/{accountId}`
 
-* **Method:** POST
+* **Method:** `POST`
 
-* **Allowed Roles:** Admin 
+* **Allowed Roles:** `Admin `
 
 * **Request:**
-  
+	```json  
   {
     "accountId": int,
     "amount": double
   }
+	```  
 
 * **Response:**
- 
+	```json  
   {
     "message": "${amount} has been withdrawn from Account #{accountId}"
   }
+	```  
 
 ####Deposit####
-* **URL:** /accounts/deposit/{accountId}
+* **URL:** `/accounts/deposit/{accountId}`
 
-* **Method:** POST
+* **Method:** `POST`
 
-* **Allowed Roles:** Admin 
+* **Allowed Roles:** `Admin` 
 
 * **Request:**
+	```json
   {
     "accountId": int,
     "amount": double
   }
+	```  
 
 * **Response:**
+	```json
   {
     "message": "${amount} has been deposited to Account #{accountId}"
   }
+	```  
 
 ####Transfer####
-* **URL:** /accounts/transfer/{accountId1}
+* **URL:** `/accounts/transfer/{accountId1}`
 
-* **Method:** POST
+* **Method:** `POST`
 
-* **Allowed Roles:** Admin
+* **Allowed Roles:** `Admin`
 
 * **Request:**
+	```json 
   {
     "accountId1": int,
     "accountId2": int,
     "amount": double
   }
+	```  
 
 * **Response:**
+	```json
   {
     "message": "${amount} has been withdrawn from Account #{accountId1}. ${amount} has been
 	deposited to Account #{accountId2}"
   }
+	```  
 
 ####Find Users####
-* **URL:** /users
+* **URL:** `/users`
 
-* **Method:** GET
+* **Method:** `GET`
 
-* **Allowed Roles:** Employee or Admin
+* **Allowed Roles:** `Employee` or `Admin`
 
 * **Response:**
   [
@@ -165,22 +176,22 @@ When inputing data into the parameters, select the Body option, raw, and JSON as
   ]
 
 ####Find Users By Id####
-* **URL:** /users/:id
+* **URL:** `/users/:id`
 
-* **Method:** GET
+* **Method:** `GET`
 
-* **Allowed Roles:** Employee or Admin or if the id provided matches the id of the current user
+* **Allowed Roles:** `Employee` or `Admin` or if the id provided matches the id of the current user
 
 * **Response:**
 
   User
 
 ####Find Accounts####
-* **URL:** /accounts
+* **URL:** `/accounts`
 
-* **Method:** GET
+* **Method:** `GET`
 
-* **Allowed Roles:** Employee or Admin
+* **Allowed Roles:** `Employee` or `Admin`
 
 * **Response:**
   [
@@ -190,9 +201,9 @@ When inputing data into the parameters, select the Body option, raw, and JSON as
 ####Find Accounts By Status####
 * **URL:** /accounts/status/:statusId
 
-* **Method:** GET
+* **Method:** `GET`
 
-* **Allowed Roles:** Employee or Admin
+* **Allowed Roles:** `Employee` or `Admin`
 
 * **Response:**
   [
@@ -200,11 +211,11 @@ When inputing data into the parameters, select the Body option, raw, and JSON as
   ]
 
 ####Find Accounts By User####
-* **URL:** /accounts/owner/:userId
+* **URL:** `/accounts/owner/:userId`
 
-* **Method:** GET
+* **Method:** `GET`
 
-* **Allowed Roles:** Employee or Admin or if the id provided matches the id of the current user
+* **Allowed Roles:** `Employee` or `Admin` or if the id provided matches the id of the current user
 
 * **Response:**
   [
@@ -212,14 +223,14 @@ When inputing data into the parameters, select the Body option, raw, and JSON as
   ]
   
 ####Find Accounts By Id####
-* **URL:** /accounts/:id
+* **URL:** `/accounts/:id``
 
-* **Method:** GET
+* **Method:** `GET`
 
-* **Allowed Roles:** Employee or Admin or if the account belongs to the current user
+* **Allowed Roles:** `Employee` or `Admin` or if the account belongs to the current user
 
 * **Response:**
-  Account
+  `Account`
 
 
 ####***License***
