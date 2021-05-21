@@ -29,17 +29,17 @@ When inputing data into the parameters, select the Body option, raw, and JSON as
 
 ####Login ####
 
-* **URL:** /login
+* **URL:** `/login`
 
-* **Method:** POST
+* **Method:** `POST`
 
 * **Request:**
-  
+  ```json
   {
     "username": String,
     "password": String
   }
-
+	```
 
 * **Response:**
   
