@@ -27,8 +27,7 @@ After opening the Java application and checking the database connection, first s
 After copying the link into Postman or your related GUI, you are able to add specific endpoints. Follow the following structures for the endpoints as well as inputs.
 When inputing data into the parameters, select the Body option, raw, and JSON as the language it will be written in.
 
-####Login ####
-
+### **Login**
 * **URL:** `/login`
 
 * **Method:** `POST`
@@ -39,54 +38,61 @@ When inputing data into the parameters, select the Body option, raw, and JSON as
     "username": String,
     "password": String
   }
-	```
+  ```
 
 * **Response:**
-	```json
+  ```json
   User
-	```
+  ```
 
 * **Error Response:**
-  * **Status Code:** `400 BAD REQUEST`t
-  	```json
+  * **Status Code:** `400 BAD REQUEST`
+
+  ```json
   {
     "message": "Invalid Credentials"
   }
-	```
-####Logout####
+  ```
 
+### **Logout**
 * **URL:** `/logout`
 
 * **Method:** `POST`
 
 * **Response:**
-	```json
+  ```json
   {
     "message": "You have successfully logged out {username}"
   }
-	```
+  ```
 * **Error Response:**
   * **Status Code:** `400 BAD REQUEST`
-	```json
+
+  ```json
   {
     "message": "There was no user logged into the session"
   }
-	``` 
-####Register####
+  ```
 
+### **Register**
 * **URL:** `/register`
 
 * **Method:** `POST`
+
 * **Allowed Roles:** `Admin`
 
-* **Request:** (note: all fields must be included and user Id field should not be there as it will be automatically generated).
-  
+* **Request:**
+  Note: All fields must be included and the userId should be zero
+  ```json
   User
-  
-* **Response:** 
- * **Status Code:** `201 CREATED`
- 
- User
+  ```
+
+* **Response:**
+  Note: The userId should be updated
+  * **Status Code:** `201 CREATED`
+  ```json
+  User
+  ```
 
 * **Error Response:**
   Note: In case username or email is already used
@@ -96,75 +102,76 @@ When inputing data into the parameters, select the Body option, raw, and JSON as
     "message": "Invalid fields"
   }
   ```
-####Withdraw####
+### **Withdraw**
 * **URL:** `/accounts/withdraw/{accountId}`
 
 * **Method:** `POST`
 
-* **Allowed Roles:** `Admin `
+* **Allowed Roles:** `Admin` or if the account belongs to the current user
 
 * **Request:**
-	```json  
+  ```json
   {
     "accountId": int,
     "amount": double
   }
-	```  
+  ```
 
 * **Response:**
-	```json  
+  ```json
   {
     "message": "${amount} has been withdrawn from Account #{accountId}"
   }
-	```  
+  ```
 
-####Deposit####
+### **Deposit**
 * **URL:** `/accounts/deposit/{accountId}`
 
 * **Method:** `POST`
 
-* **Allowed Roles:** `Admin` 
+* **Allowed Roles:** `Admin` or if the account belongs to the current user
 
 * **Request:**
-	```json
+  ```json
   {
     "accountId": int,
     "amount": double
   }
-	```  
+  ```
 
 * **Response:**
-	```json
+  ```json
   {
     "message": "${amount} has been deposited to Account #{accountId}"
   }
-	```  
-
-####Transfer####
+  ```
+  
+  
+### **Transfer**
 * **URL:** `/accounts/transfer/{accountId1}`
 
 * **Method:** `POST`
 
-* **Allowed Roles:** `Admin`
+* **Allowed Roles:** `Admin` or if the source account belongs to the current user
 
 * **Request:**
-	```json 
+  ```json
   {
     "accountId1": int,
     "accountId2": int,
     "amount": double
   }
-	```  
+  ```
 
 * **Response:**
-	```json
+  ```json
   {
     "message": "${amount} has been withdrawn from Account #{accountId1}. ${amount} has been
 	deposited to Account #{accountId2}"
   }
-	```  
+  ```  
 
-####Find Users####
+### **Find Users**
 * **URL:** `/users`
 
 * **Method:** `GET`
@@ -172,11 +179,13 @@ When inputing data into the parameters, select the Body option, raw, and JSON as
 * **Allowed Roles:** `Employee` or `Admin`
 
 * **Response:**
+  ```json
   [
     User
   ]
+  ```
 
-####Find Users By Id####
+### **Find Users By Id**
 * **URL:** `/users/:id`
 
 * **Method:** `GET`
@@ -184,8 +193,9 @@ When inputing data into the parameters, select the Body option, raw, and JSON as
 * **Allowed Roles:** `Employee` or `Admin` or if the id provided matches the id of the current user
 
 * **Response:**
-
+  ```json
   User
+  ```
 
 ####Find Accounts####
 * **URL:** `/accounts`
@@ -199,40 +209,44 @@ When inputing data into the parameters, select the Body option, raw, and JSON as
     Account
   ]
 
-####Find Accounts By Status####
-* **URL:** /accounts/status/:statusId
+### **Find Accounts By Status**
+* **URL:** `/accounts/status/:statusId`
 
 * **Method:** `GET`
 
 * **Allowed Roles:** `Employee` or `Admin`
 
 * **Response:**
+  ```json
   [
     Account
   ]
+    ```
 
-####Find Accounts By User####
+### **Find Accounts By User**
 * **URL:** `/accounts/owner/:userId`
-
+  
 * **Method:** `GET`
 
 * **Allowed Roles:** `Employee` or `Admin` or if the id provided matches the id of the current user
 
 * **Response:**
+  ```json
   [
     Account
   ]
-  
-####Find Accounts By Id####
-* **URL:** `/accounts/:id``
+  ```
+### **Find Accounts By Id**
+* **URL:** `/accounts/:id`
 
 * **Method:** `GET`
 
 * **Allowed Roles:** `Employee` or `Admin` or if the account belongs to the current user
 
 * **Response:**
-  `Account`
-
+  ```json
+  Account
+  ```
 
 ####***License***
 This project using the following license: Java 8 
